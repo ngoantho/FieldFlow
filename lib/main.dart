@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home:
-          const MyHomePage(title: 'Flutter Demo Home Testing Git from Anthony'),
+          const MyHomePage(title: 'Flutter Demo Home Testing Git from Q'),
     );
   }
 }

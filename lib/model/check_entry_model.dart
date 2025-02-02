@@ -26,6 +26,12 @@ extension FormatMmDdYyyy on DateTime {
   }
 }
 
+extension FormatHHmmss on DateTime {
+  String getHHmmss() {
+    return DateFormat('HH:mm:ss').format(this);
+  }
+}
+
 extension DayOfWeek on DateTime {
   String getDayOfWeek() {
     return DateFormat('EEEE').format(this);

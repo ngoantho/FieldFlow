@@ -56,6 +56,8 @@ class _HomepageState extends State<Homepage>
   }
 
   bool get alreadyCheckedOut => checkedIn == false;
+  DateTime? get checkInTime => checkEntryModel.checkInTime;
+  DateTime? get checkOutTime => checkEntryModel.checkOutTime;
 
   @override
   Widget build(BuildContext context) {
@@ -91,8 +93,8 @@ class _HomepageState extends State<Homepage>
                 : Container(),
             SizedBox(height: 10),
             Text(switch (checkedIn) {
-              true => "Checked In at ${checkEntryModel.checkInTime}",
-              false => "Checked Out at ${checkEntryModel.checkOutTime}",
+              true => "Checked In on ${checkInTime?.getMmDdYyyy()} at ${checkInTime?.getHHmmss()}",
+              false => "Checked Out on ${checkOutTime?.getMmDdYyyy()} at ${checkOutTime?.getHHmmss()}",
               null => "",
             })
           ],

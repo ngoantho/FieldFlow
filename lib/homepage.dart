@@ -17,6 +17,15 @@ class Homepage extends StatefulWidget {
 class _HomepageState extends State<Homepage>
     with BuildAppBar, NavigateMixin, DialogConfirmMixin {
   bool checkedOut = false;
+  void _resetCheckOut() {
+    Future.delayed(Duration(seconds: 5), () {
+      if (mounted) {
+        setState(() {
+          checkedOut = false;
+        });
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,6 +62,7 @@ class _HomepageState extends State<Homepage>
                       setState(() {
                         checkedOut = true;
                       });
+                      _resetCheckOut();
                       ScaffoldMessenger.of(context).removeCurrentSnackBar();
                     }
                   }

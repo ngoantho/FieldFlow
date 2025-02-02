@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 class TimeTracker with ChangeNotifier {
   DateTime? checkInTime;
   DateTime? checkOutTime;
+  DateTime? lastCheckOutTime;
   List<WeekModel> weekList = [];
   WeekModel? currentWeek;
 
@@ -17,6 +18,7 @@ class TimeTracker with ChangeNotifier {
 
   void checkOut() {
     checkOutTime = DateTime.now();
+    lastCheckOutTime = checkOutTime;
 
     if (checkInTime == null || checkOutTime == null) return;
 
@@ -29,9 +31,11 @@ class TimeTracker with ChangeNotifier {
     // add day to week
     addDayToWeek(newDay);
 
+    // delay
     checkInTime = null;
     checkOutTime = null;
 
+    // notify UI
     notifyListeners();
   }
 

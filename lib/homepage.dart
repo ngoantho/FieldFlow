@@ -71,43 +71,44 @@ class _HomepageState extends State<Homepage>
             child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-                ElevatedButton(
-                    // onPressed: switch (timeTracker.checkedIn) {
-                    //   null => () {
-                    //       timeTracker.checkIn();
-                    //       setState(() {});
-                    //     },
-                    //   true => () {
-                    //       timeTracker.checkOut();
-                    //       setState(() {});
-                    //     },
-                    //   false => null, // already checked out
-                    // },
-              onPressed: (){
-                if (timeTracker.checkInTime == null){
+            ElevatedButton(
+              // onPressed: switch (timeTracker.checkedIn) {
+              //   null => () {
+              //       timeTracker.checkIn();
+              //       setState(() {});
+              //     },
+              //   true => () {
+              //       timeTracker.checkOut();
+              //       setState(() {});
+              //     },
+              //   false => null, // already checked out
+              // },
+              onPressed: () {
+                if (timeTracker.checkInTime == null) {
                   timeTracker.checkIn();
-                } else{
+                } else {
                   timeTracker.checkOut();
                 }
               },
-                    style: ElevatedButton.styleFrom(
-                        shape: CircleBorder(),
-                        padding: EdgeInsets.all(50),
-                        backgroundColor: Colors.lightBlueAccent),
-                    // child: Text(switch (timeTracker.checkedIn) {
-                    //   null => 'Check In',
-                    //   true => 'Check Out',
-                    //   false => '',
-                    // })
-                child: Text(
-                  timeTracker.checkInTime == null? 'Check In' : 'Check Out',
-                ),)
-                ,
+              style: ElevatedButton.styleFrom(
+                  shape: CircleBorder(),
+                  padding: EdgeInsets.all(50),
+                  backgroundColor: Colors.lightBlueAccent),
+              // child: Text(switch (timeTracker.checkedIn) {
+              //   null => 'Check In',
+              //   true => 'Check Out',
+              //   false => '',
+              // })
+              child: Text(
+                timeTracker.checkInTime == null ? 'Check In' : 'Check Out',
+              ),
+            ),
             SizedBox(height: 10),
             Text(timeTracker.checkInTime != null
                 ? "Checked In at ${timeTracker.checkInTime}"
-                : timeTracker.checkOutTime != null
-                    ? "Checked Out at ${timeTracker.checkOutTime}"
+                : timeTracker.checkOutTime != null ||
+                        timeTracker.lastCheckOutTime != null
+                    ? "Checked Out at ${timeTracker.lastCheckOutTime}"
                     : "check out not working"),
           ],
         )));

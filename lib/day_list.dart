@@ -10,10 +10,10 @@ class DayList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-        itemCount: weekModel.dayList.length ,
-        itemBuilder: (context, index) => Padding(padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10),
-            child: _DayList(weekModel.dayList[index]))
-    );
+          itemCount: weekModel.dayList.length ,
+          itemBuilder: (context, index) => Padding(padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10),
+              child: _DayList(weekModel.dayList[index]))
+      );
   }
 }
 
@@ -30,8 +30,8 @@ class _DayList extends StatelessWidget {
     
     return ElevatedButton(
         onPressed: (){},
-        child: Text('${dayModel.dayOfWeek} - ${dayModel.getDdMmYyyy}\n\n'
-            'Work Hour: $workHour'));
+        child: Text('${dayModel.dayOfWeek} - ${dayModel.getDdMmYyyy}\n'
+            'Work Hours: $workHour', textAlign: TextAlign.center,));
 
   }
 }

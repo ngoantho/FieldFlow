@@ -13,7 +13,12 @@ class DayListHistoryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Text(
+          'Week ${weekModel.dayList.first.getDdMmYyyy} - ${weekModel.dayList.last.getDdMmYyyy} Report'
+        ),
+        centerTitle: true,
+      ),
       body: SafeArea(
           child: DayList(weekModel: weekModel),
           ),

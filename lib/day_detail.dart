@@ -20,11 +20,9 @@ class DayDetail extends StatelessWidget {
           return Row(
             children: [
               Expanded(
-                child: Text(
-                    '           You spent ${location.duration.inHours} hours at Location: ${location.latitude} - ${location.longitude}\n\n\n',
-                  textAlign: TextAlign.justify
-                )
-              ),
+                  child: Text(
+                      '           You spent ${location.duration.inHours} hours at Location: ${location.latitude} - ${location.longitude}\n\n\n',
+                      textAlign: TextAlign.justify)),
             ],
           );
         }),

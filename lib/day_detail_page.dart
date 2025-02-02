@@ -11,7 +11,9 @@ class DayDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: DayDetail(dayModel: dayModel,),
+      body: DayDetail(
+        dayModel: dayModel,
+      ),
     );
   }
 }

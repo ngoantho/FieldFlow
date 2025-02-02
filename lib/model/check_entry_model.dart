@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 class CheckEntryModel{
   DateTime? checkInTime;
   DateTime? checkOutTime;
@@ -15,5 +17,17 @@ class CheckEntryModel{
   void reset() {
     checkInTime = null;
     checkOutTime = null;
+  }
+}
+
+extension FormatMmDdYyyy on DateTime {
+  String getMmDdYyyy() {
+    return DateFormat('MM/dd/yyyy').format(this);
+  }
+}
+
+extension DayOfWeek on DateTime {
+  String getDayOfWeek() {
+    return DateFormat('EEEE').format(this);
   }
 }

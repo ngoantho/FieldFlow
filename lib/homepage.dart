@@ -2,8 +2,10 @@ import 'package:field_flow/mixins/build_app_bar.dart';
 import 'package:field_flow/mixins/dialog_confirm.dart';
 import 'package:field_flow/mixins/navigate_mixin.dart';
 import 'package:field_flow/model/check_entry_model.dart';
+import 'package:field_flow/time_tracker_provider.dart';
 import 'package:field_flow/week_list_history_page.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({super.key});
@@ -14,13 +16,11 @@ class Homepage extends StatefulWidget {
 
 class _HomepageState extends State<Homepage>
     with BuildAppBar, NavigateMixin, DialogConfirmMixin {
-  bool? checkedIn;
-  final checkEntryModel = CheckEntryModel();
-
   void checkIn() {
+    final timeTracker = context.read<TimeTracker>();
+
     setState(() {
-      checkedIn = true;
-      checkEntryModel.checkIn();
+      timeTracker.checkIn();
     });
 
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -33,13 +33,13 @@ class _HomepageState extends State<Homepage>
   }
 
   void checkOut() async {
+    final timeTracker = context.read<TimeTracker>();
     bool confirmed =
         await showConfirmDialog(context: context, title: 'Check Out?');
 
     if (confirmed) {
       setState(() {
-        checkedIn = false;
-        checkEntryModel.checkOut();
+        timeTracker.checkOut();
       });
 
       ScaffoldMessenger.of(context).removeCurrentSnackBar();
@@ -47,20 +47,35 @@ class _HomepageState extends State<Homepage>
   }
 
   void _checkInAgain() {
+    final timeTracker = context.read<TimeTracker>();
+
     setState(() {
-      checkEntryModel.reset();
-      checkedIn = null;
+      timeTracker.checkInTime = null;
+      timeTracker.checkOutTime = null;
+      timeTracker.checkedIn = null;
     });
 
     Navigator.pop(context);
   }
 
-  bool get alreadyCheckedOut => checkedIn == false;
-  DateTime? get checkInTime => checkEntryModel.checkInTime;
-  DateTime? get checkOutTime => checkEntryModel.checkOutTime;
+  bool get alreadyCheckedOut {
+    final timeTracker = context.read<TimeTracker>();
+    return timeTracker.checkedIn == false;
+  }
+
+  DateTime? get checkInTime {
+    final timeTracker = context.read<TimeTracker>();
+    return timeTracker.checkInTime;
+  }
+  DateTime? get checkOutTime {
+    final timeTracker = context.read<TimeTracker>();
+    return timeTracker.checkOutTime;
+  }
 
   @override
   Widget build(BuildContext context) {
+    final timeTracker = context.watch<TimeTracker>();
+
     return Scaffold(
         appBar: buildAppBar(title: 'FieldFlow'),
         drawer: alreadyCheckedOut ? ElevatedButton(
@@ -76,7 +91,7 @@ class _HomepageState extends State<Homepage>
           children: [
             !alreadyCheckedOut
                 ? ElevatedButton(
-                    onPressed: switch (checkedIn) {
+                    onPressed: switch (timeTracker.checkedIn) {
                       null => checkIn,
                       true => checkOut,
                       false => null, // already checked out
@@ -85,14 +100,14 @@ class _HomepageState extends State<Homepage>
                         shape: CircleBorder(),
                         padding: EdgeInsets.all(50),
                         backgroundColor: Colors.lightBlueAccent),
-                    child: Text(switch (checkedIn) {
+                    child: Text(switch (timeTracker.checkedIn) {
                       null => 'Check In',
                       true => 'Check Out',
                       false => '',
                     }))
                 : Container(),
             SizedBox(height: 10),
-            Text(switch (checkedIn) {
+            Text(switch (timeTracker.checkedIn) {
               true => "Checked In on ${checkInTime?.getMmDdYyyy()} at ${checkInTime?.getHHmmss()}",
               false => "Checked Out on ${checkOutTime?.getMmDdYyyy()} at ${checkOutTime?.getHHmmss()}",
               null => "",

@@ -12,7 +12,7 @@ class TimeTracker with ChangeNotifier {
   WeekModel? currentWeek;
 
   void checkIn() {
-    checkInTime = DateTime.now();
+    checkInTime = DateTime.now().subtract(Duration(hours: 8));
     notifyListeners();
   }
 
@@ -30,7 +30,7 @@ class TimeTracker with ChangeNotifier {
 
     // add day to week
     addDayToWeek(newDay);
-
+    
     // delay
     checkInTime = null;
     checkOutTime = null;
@@ -57,6 +57,7 @@ class TimeTracker with ChangeNotifier {
         weekList.add(currentWeek!);
       }
       currentWeek = WeekModel([day]);
+      weekList.add(currentWeek!);
     } else {
       // add to existing week
       currentWeek!.dayList.add(day);

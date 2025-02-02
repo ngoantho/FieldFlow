@@ -12,6 +12,7 @@ class WeekList extends StatelessWidget {
   Widget build(BuildContext context) {
     final timeTracker = context.watch<TimeTracker>();
 
+    print("Week List Length: ${timeTracker.weekList.length}");
     return ListView.builder(
         itemCount: timeTracker.weekList.length,
         itemBuilder: (context, index) => Padding(padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10),

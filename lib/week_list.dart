@@ -1,3 +1,4 @@
+import 'package:field_flow/day_list_history_page.dart';
 import 'package:field_flow/model/mock_data.dart';
 import 'package:field_flow/model/week_model.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +10,8 @@ class WeekList extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.builder(
         itemCount: mockWeekList.length,
-        itemBuilder: (context, index) => _WeekListItem(mockWeekList[index])
+        itemBuilder: (context, index) => Padding(padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10),
+            child:_WeekListItem(mockWeekList[index]))
     );
   }
 }
@@ -24,7 +26,13 @@ class _WeekListItem extends StatelessWidget{
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25))
       ),
       child: Text(week.toString()),
-      onPressed: () {},
+      onPressed: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => DayListHistoryPage(weekModel: week),
+          )
+        );
+      },
     );
   }
 }

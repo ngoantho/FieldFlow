@@ -7,7 +7,8 @@ mixin DialogConfirmMixin {
   }) async {
     return await showDialog(context: context, builder: (_) {
       return AlertDialog(
-        title: Text(title),
+        title: Text(title, textAlign: TextAlign.center,),
+        actionsAlignment: MainAxisAlignment.center,
         actions: [
           ElevatedButton(onPressed: () {
             Navigator.of(context).pop(false);

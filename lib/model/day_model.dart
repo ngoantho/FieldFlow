@@ -1,6 +1,5 @@
 import 'package:field_flow/model/check_entry_model.dart';
 import 'package:field_flow/model/location_model.dart';
-import 'package:intl/intl.dart';
 
 class DayModel{
   final CheckEntryModel checkEntry;

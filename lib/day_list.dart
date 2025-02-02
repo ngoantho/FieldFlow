@@ -1,6 +1,5 @@
 import 'package:field_flow/model/day_model.dart';
 import 'package:field_flow/model/week_model.dart';
-import 'package:field_flow/model/check_entry_model.dart';
 import 'package:flutter/material.dart';
 
 class DayList extends StatelessWidget {
@@ -31,7 +30,7 @@ class _DayList extends StatelessWidget {
     
     return ElevatedButton(
         onPressed: (){},
-        child: Text('${dayModel.dayOfWeek} - ${dayModel.getDdMmYyyy}\n'
+        child: Text('${dayModel.dayOfWeek} - ${dayModel.getMmDdYyyy}\n'
             'Work Hours: $workHour', textAlign: TextAlign.center,));
 
   }

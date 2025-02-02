@@ -61,8 +61,8 @@ class _HomepageState extends State<Homepage>
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: buildAppBar(title: 'FieldFlow'),
-        drawer: ElevatedButton(
-            onPressed: _checkInAgain, child: Text('Check In again')),
+        drawer: alreadyCheckedOut ? ElevatedButton(
+            onPressed: _checkInAgain, child: Text('Check In again')) : null,
         floatingActionButton: ElevatedButton(
             onPressed: () {
               navigateTo(context: context, widget: WeekListHistoryPage());

@@ -2,7 +2,7 @@ class CheckEntryModel{
   DateTime? checkInTime;
   DateTime? checkOutTime;
 
-  CheckEntryModel(this.checkInTime, this.checkOutTime);
+  CheckEntryModel([this.checkInTime, this.checkOutTime]);
 
   void checkIn(){
     checkInTime = DateTime.now();

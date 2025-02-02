@@ -1,4 +1,4 @@
-import 'package:field_flow/screens/homepage.dart';
+import 'package:field_flow/homepage.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -33,8 +33,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,
-      home:
-          const Homepage(),
+      home: const Homepage(),
     );
   }
 }

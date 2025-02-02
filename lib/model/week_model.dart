@@ -1,4 +1,4 @@
-import 'DayModel.dart';
+import 'day_model.dart';
 
 class WeekModel{
   List<DayModel> dayList;

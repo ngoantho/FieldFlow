@@ -4,11 +4,11 @@ class CheckEntryModel{
 
   CheckEntryModel(this.checkInTime, this.checkOutTime);
 
-  void check_in(){
+  void checkIn(){
     checkInTime = DateTime.now();
   }
 
-  void check_out(){
+  void checkOut(){
     checkOutTime = DateTime.now();
   }
 }

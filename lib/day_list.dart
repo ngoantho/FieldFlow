@@ -11,10 +11,10 @@ class DayList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-          itemCount: weekModel.dayList.length ,
-          itemBuilder: (context, index) => Padding(padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10),
-              child: _DayList(weekModel.dayList[index]))
-      );
+        itemCount: weekModel.dayList.length,
+        itemBuilder: (context, index) => Padding(
+            padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10),
+            child: _DayList(weekModel.dayList[index])));
   }
 }
 
@@ -23,21 +23,24 @@ class _DayList extends StatelessWidget {
 
   const _DayList(this.dayModel);
 
-  dynamic get workHour{
-    return (dayModel.checkEntry.checkOutTime!).difference(dayModel.checkEntry.checkInTime!).inHours;
+  dynamic get workHour {
+    return (dayModel.checkEntry.checkOutTime!)
+        .difference(dayModel.checkEntry.checkInTime!)
+        .inHours;
   }
-  @override
-  Widget build(BuildContext context){
-    
-    return ElevatedButton(
-        onPressed: (){
-          Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) => DayDetailPage(dayModel: dayModel),
-          )
-          );
-        },
-        child: Text('${dayModel.dayOfWeek} - ${dayModel.getMmDdYyyy}\n'
-            'Work Hours: $workHour', textAlign: TextAlign.center,));
 
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+        onPressed: () {
+          Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => DayDetailPage(dayModel: dayModel),
+          ));
+        },
+        child: Text(
+          '${dayModel.dayOfWeek} - ${dayModel.getMmDdYyyy}\n'
+          'Work Hours: $workHour',
+          textAlign: TextAlign.center,
+        ));
   }
 }

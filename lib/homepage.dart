@@ -16,45 +16,7 @@ class Homepage extends StatefulWidget {
 
 class _HomepageState extends State<Homepage>
     with BuildAppBar, NavigateMixin, DialogConfirmMixin {
-  void _checkIn() {
-    final timeTracker = context.read<TimeTracker>();
-
-    setState(() {
-      timeTracker.checkIn();
-    });
-
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(
-        'Tracking Location',
-        textAlign: TextAlign.center,
-      ),
-      duration: Duration(hours: 8),
-    ));
-  }
-
-  void _checkOut() async {
-    final timeTracker = context.read<TimeTracker>();
-    bool confirmed =
-        await showConfirmDialog(context: context, title: 'Check Out?');
-
-    if (confirmed) {
-      setState(() {
-        timeTracker.checkOut();
-      });
-
-      ScaffoldMessenger.of(context).removeCurrentSnackBar();
-    }
-  }
-
-  DateTime? get _checkInTime {
-    final timeTracker = context.watch<TimeTracker>();
-    return timeTracker.checkInTime;
-  }
-
-  DateTime? get _checkOutTime {
-    final timeTracker = context.watch<TimeTracker>();
-    return timeTracker.checkOutTime;
-  }
+  bool checkedOut = false;
 
   @override
   Widget build(BuildContext context) {
@@ -71,45 +33,45 @@ class _HomepageState extends State<Homepage>
             child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ElevatedButton(
-              // onPressed: switch (timeTracker.checkedIn) {
-              //   null => () {
-              //       timeTracker.checkIn();
-              //       setState(() {});
-              //     },
-              //   true => () {
-              //       timeTracker.checkOut();
-              //       setState(() {});
-              //     },
-              //   false => null, // already checked out
-              // },
-              onPressed: () {
-                if (timeTracker.checkInTime == null) {
-                  timeTracker.checkIn();
-                } else {
-                  timeTracker.checkOut();
-                }
-              },
-              style: ElevatedButton.styleFrom(
-                  shape: CircleBorder(),
-                  padding: EdgeInsets.all(50),
-                  backgroundColor: Colors.lightBlueAccent),
-              // child: Text(switch (timeTracker.checkedIn) {
-              //   null => 'Check In',
-              //   true => 'Check Out',
-              //   false => '',
-              // })
-              child: Text(
-                timeTracker.checkInTime == null ? 'Check In' : 'Check Out',
+            if (!checkedOut)
+              ElevatedButton(
+                onPressed: () async {
+                  if (timeTracker.checkInTime == null) {
+                    timeTracker.checkIn();
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: Text(
+                        'Tracking Location',
+                        textAlign: TextAlign.center,
+                      ),
+                      duration: Duration(hours: 8),
+                    ));
+                  } else {
+                    bool confirmed = await showConfirmDialog(
+                        context: context, title: 'Check Out?');
+                    if (confirmed) {
+                      timeTracker.checkOut();
+                      setState(() {
+                        checkedOut = true;
+                      });
+                      ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                    }
+                  }
+                },
+                style: ElevatedButton.styleFrom(
+                    shape: CircleBorder(),
+                    padding: EdgeInsets.all(50),
+                    backgroundColor: Colors.lightBlueAccent),
+                child: Text(
+                  timeTracker.checkInTime == null ? 'Check In' : 'Check Out',
+                ),
               ),
-            ),
             SizedBox(height: 10),
             Text(timeTracker.checkInTime != null
-                ? "Checked In at ${timeTracker.checkInTime}"
+                ? "Checked In on ${timeTracker.checkInTime?.getMmDdYyyy()} at ${timeTracker.checkInTime?.getHHmmss()}"
                 : timeTracker.checkOutTime != null ||
                         timeTracker.lastCheckOutTime != null
-                    ? "Checked Out at ${timeTracker.lastCheckOutTime}"
-                    : "check out not working"),
+                    ? "Checked Out on ${timeTracker.lastCheckOutTime?.getMmDdYyyy()} at ${timeTracker.lastCheckOutTime?.getHHmmss()}"
+                    : ""),
           ],
         )));
   }

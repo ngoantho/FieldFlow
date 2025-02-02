@@ -11,4 +11,9 @@ class CheckEntryModel{
   void checkOut(){
     checkOutTime = DateTime.now();
   }
+
+  void reset() {
+    checkInTime = null;
+    checkOutTime = null;
+  }
 }

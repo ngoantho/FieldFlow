@@ -1,4 +1,5 @@
 import 'package:field_flow/mixins/build_app_bar.dart';
+import 'package:field_flow/mixins/dialog_confirm.dart';
 import 'package:field_flow/mixins/navigate_mixin.dart';
 import 'package:field_flow/model/check_entry_model.dart';
 import 'package:field_flow/week_list_history_page.dart';
@@ -11,7 +12,8 @@ class Homepage extends StatefulWidget {
   State<Homepage> createState() => _HomepageState();
 }
 
-class _HomepageState extends State<Homepage> with BuildAppBar, NavigateMixin {
+class _HomepageState extends State<Homepage>
+    with BuildAppBar, NavigateMixin, DialogConfirmMixin {
   bool? checkedIn;
   final checkEntryModel = CheckEntryModel();
 
@@ -20,13 +22,37 @@ class _HomepageState extends State<Homepage> with BuildAppBar, NavigateMixin {
       checkedIn = true;
       checkEntryModel.checkIn();
     });
+
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(
+        'Tracking Location',
+        textAlign: TextAlign.center,
+      ),
+      duration: Duration(hours: 8),
+    ));
   }
 
-  void checkOut() {
+  void checkOut() async {
+    bool confirmed =
+        await showConfirmDialog(context: context, title: 'Check Out?');
+
+    if (confirmed) {
+      setState(() {
+        checkedIn = false;
+        checkEntryModel.checkOut();
+      });
+
+      ScaffoldMessenger.of(context).removeCurrentSnackBar();
+    }
+  }
+
+  void _checkInAgain() {
     setState(() {
-      checkedIn = false;
-      checkEntryModel.checkOut();
+      checkEntryModel.reset();
+      checkedIn = null;
     });
+
+    Navigator.pop(context);
   }
 
   bool get alreadyCheckedOut => checkedIn == false;
@@ -35,6 +61,8 @@ class _HomepageState extends State<Homepage> with BuildAppBar, NavigateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: buildAppBar(title: 'FieldFlow'),
+        drawer: ElevatedButton(
+            onPressed: _checkInAgain, child: Text('Check In again')),
         floatingActionButton: ElevatedButton(
             onPressed: () {
               navigateTo(context: context, widget: WeekListHistoryPage());

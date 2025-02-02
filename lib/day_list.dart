@@ -30,18 +30,13 @@ class _DayList extends StatelessWidget {
   Widget build(BuildContext context){
     
     return ElevatedButton(
-<<<<<<< Updated upstream
-        onPressed: (){},
-        child: Text('${dayModel.dayOfWeek} - ${dayModel.getMmDdYyyy}\n'
-=======
         onPressed: (){
           Navigator.of(context).push(
             MaterialPageRoute(builder: (context) => DayDetailPage(dayModel: dayModel),
           )
           );
         },
-        child: Text('${dayModel.dayOfWeek} - ${dayModel.getDdMmYyyy}\n'
->>>>>>> Stashed changes
+        child: Text('${dayModel.dayOfWeek} - ${dayModel.getMmDdYyyy}\n'
             'Work Hours: $workHour', textAlign: TextAlign.center,));
 
   }

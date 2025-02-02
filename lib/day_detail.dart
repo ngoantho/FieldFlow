@@ -13,7 +13,7 @@ class DayDetail extends StatelessWidget {
         Padding(
             padding: EdgeInsets.all(8),
             child: Text(
-                "${dayModel.dayOfWeek} - ${dayModel.getDdMmYyyy} - Detail Report \n"
+                "${dayModel.dayOfWeek} - ${dayModel.getMmDdYyyy} - Detail Report \n"
                 "Check-in at: ${dayModel.checkEntry.checkInTime} \n"
                 "Check-out at: ${dayModel.checkEntry.checkOutTime}\n\n\n")),
         ...dayModel.locationList.map((location) {

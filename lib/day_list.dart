@@ -1,3 +1,4 @@
+import 'package:field_flow/day_detail_page.dart';
 import 'package:field_flow/model/day_model.dart';
 import 'package:field_flow/model/week_model.dart';
 import 'package:flutter/material.dart';
@@ -29,8 +30,18 @@ class _DayList extends StatelessWidget {
   Widget build(BuildContext context){
     
     return ElevatedButton(
+<<<<<<< Updated upstream
         onPressed: (){},
         child: Text('${dayModel.dayOfWeek} - ${dayModel.getMmDdYyyy}\n'
+=======
+        onPressed: (){
+          Navigator.of(context).push(
+            MaterialPageRoute(builder: (context) => DayDetailPage(dayModel: dayModel),
+          )
+          );
+        },
+        child: Text('${dayModel.dayOfWeek} - ${dayModel.getDdMmYyyy}\n'
+>>>>>>> Stashed changes
             'Work Hours: $workHour', textAlign: TextAlign.center,));
 
   }

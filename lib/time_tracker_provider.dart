@@ -9,15 +9,13 @@ class TimeTracker with ChangeNotifier {
   DateTime? checkOutTime;
   List<WeekModel> weekList = [];
   WeekModel? currentWeek;
-  bool? checkedIn;
 
   void checkIn() {
-    checkedIn = true;
     checkInTime = DateTime.now();
+    notifyListeners();
   }
 
   void checkOut() {
-    checkedIn = false;
     checkOutTime = DateTime.now();
 
     if (checkInTime == null || checkOutTime == null) return;

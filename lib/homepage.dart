@@ -16,7 +16,7 @@ class Homepage extends StatefulWidget {
 
 class _HomepageState extends State<Homepage>
     with BuildAppBar, NavigateMixin, DialogConfirmMixin {
-  void checkIn() {
+  void _checkIn() {
     final timeTracker = context.read<TimeTracker>();
 
     setState(() {
@@ -32,7 +32,7 @@ class _HomepageState extends State<Homepage>
     ));
   }
 
-  void checkOut() async {
+  void _checkOut() async {
     final timeTracker = context.read<TimeTracker>();
     bool confirmed =
         await showConfirmDialog(context: context, title: 'Check Out?');
@@ -46,29 +46,13 @@ class _HomepageState extends State<Homepage>
     }
   }
 
-  void _checkInAgain() {
-    final timeTracker = context.read<TimeTracker>();
-
-    setState(() {
-      timeTracker.checkInTime = null;
-      timeTracker.checkOutTime = null;
-      timeTracker.checkedIn = null;
-    });
-
-    Navigator.pop(context);
-  }
-
-  bool get alreadyCheckedOut {
-    final timeTracker = context.read<TimeTracker>();
-    return timeTracker.checkedIn == false;
-  }
-
-  DateTime? get checkInTime {
-    final timeTracker = context.read<TimeTracker>();
+  DateTime? get _checkInTime {
+    final timeTracker = context.watch<TimeTracker>();
     return timeTracker.checkInTime;
   }
-  DateTime? get checkOutTime {
-    final timeTracker = context.read<TimeTracker>();
+
+  DateTime? get _checkOutTime {
+    final timeTracker = context.watch<TimeTracker>();
     return timeTracker.checkOutTime;
   }
 
@@ -78,8 +62,6 @@ class _HomepageState extends State<Homepage>
 
     return Scaffold(
         appBar: buildAppBar(title: 'FieldFlow'),
-        drawer: alreadyCheckedOut ? ElevatedButton(
-            onPressed: _checkInAgain, child: Text('Check In again')) : null,
         floatingActionButton: ElevatedButton(
             onPressed: () {
               navigateTo(context: context, widget: WeekListHistoryPage());
@@ -89,29 +71,44 @@ class _HomepageState extends State<Homepage>
             child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            !alreadyCheckedOut
-                ? ElevatedButton(
-                    onPressed: switch (timeTracker.checkedIn) {
-                      null => checkIn,
-                      true => checkOut,
-                      false => null, // already checked out
-                    },
+                ElevatedButton(
+                    // onPressed: switch (timeTracker.checkedIn) {
+                    //   null => () {
+                    //       timeTracker.checkIn();
+                    //       setState(() {});
+                    //     },
+                    //   true => () {
+                    //       timeTracker.checkOut();
+                    //       setState(() {});
+                    //     },
+                    //   false => null, // already checked out
+                    // },
+              onPressed: (){
+                if (timeTracker.checkInTime == null){
+                  timeTracker.checkIn();
+                } else{
+                  timeTracker.checkOut();
+                }
+              },
                     style: ElevatedButton.styleFrom(
                         shape: CircleBorder(),
                         padding: EdgeInsets.all(50),
                         backgroundColor: Colors.lightBlueAccent),
-                    child: Text(switch (timeTracker.checkedIn) {
-                      null => 'Check In',
-                      true => 'Check Out',
-                      false => '',
-                    }))
-                : Container(),
+                    // child: Text(switch (timeTracker.checkedIn) {
+                    //   null => 'Check In',
+                    //   true => 'Check Out',
+                    //   false => '',
+                    // })
+                child: Text(
+                  timeTracker.checkInTime == null? 'Check In' : 'Check Out',
+                ),)
+                ,
             SizedBox(height: 10),
-            Text(switch (timeTracker.checkedIn) {
-              true => "Checked In on ${checkInTime?.getMmDdYyyy()} at ${checkInTime?.getHHmmss()}",
-              false => "Checked Out on ${checkOutTime?.getMmDdYyyy()} at ${checkOutTime?.getHHmmss()}",
-              null => "",
-            })
+            Text(timeTracker.checkInTime != null
+                ? "Checked In at ${timeTracker.checkInTime}"
+                : timeTracker.checkOutTime != null
+                    ? "Checked Out at ${timeTracker.checkOutTime}"
+                    : "check out not working"),
           ],
         )));
   }

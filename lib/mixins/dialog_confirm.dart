@@ -9,10 +9,10 @@ mixin DialogConfirmMixin {
       return AlertDialog(
         title: Text(title),
         actions: [
-          TextButton(onPressed: () {
+          ElevatedButton(onPressed: () {
             Navigator.of(context).pop(false);
           }, child: Text('Cancel')),
-          ElevatedButton(onPressed: () {
+          FilledButton(onPressed: () {
             Navigator.of(context).pop(true);
           }, child: Text('Confirm'))
         ],

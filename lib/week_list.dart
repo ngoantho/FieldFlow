@@ -9,7 +9,8 @@ class WeekList extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.builder(
         itemCount: mockWeekList.length,
-        itemBuilder: (context, index) => _WeekListItem(mockWeekList[index])
+        itemBuilder: (context, index) => Padding(padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10),
+            child:_WeekListItem(mockWeekList[index]))
     );
   }
 }

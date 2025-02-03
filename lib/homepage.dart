@@ -45,6 +45,25 @@ class _HomepageState extends State<Homepage>
     });
   }
 
+  void _showWeekReport() {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        duration: closeTrackingMsg,
+        content: FilledButton.tonal(
+            onPressed: () {
+              Navigator.of(context).popUntil(
+                (route) {
+                  return route.isFirst;
+                },
+              );
+
+              // force snack bar to close
+              ScaffoldMessenger.of(context).hideCurrentSnackBar();
+              ScaffoldMessenger.of(context).removeCurrentSnackBar();
+            },
+            child: Text('Home Page'))));
+    navigateTo(context: context, widget: WeekListHistoryPage());
+  }
+
   @override
   Widget build(BuildContext context) {
     final timeTracker = context.watch<TimeTracker>();
@@ -75,11 +94,10 @@ class _HomepageState extends State<Homepage>
 
     return Scaffold(
         appBar: buildAppBar(title: 'FieldFlow'),
-        floatingActionButton: ElevatedButton(
-            onPressed: () {
-              navigateTo(context: context, widget: WeekListHistoryPage());
-            },
-            child: Text('Week Report')),
+        floatingActionButton: checkedOut
+            ? ElevatedButton(
+                onPressed: _showWeekReport, child: Text('Week Report'))
+            : null,
         body: Center(
             child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

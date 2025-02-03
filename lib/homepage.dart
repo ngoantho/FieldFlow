@@ -2,9 +2,11 @@ import 'package:field_flow/mixins/build_app_bar.dart';
 import 'package:field_flow/mixins/dialog_confirm.dart';
 import 'package:field_flow/mixins/navigate_mixin.dart';
 import 'package:field_flow/model/check_entry_model.dart';
+import 'package:field_flow/providers/position_provider.dart';
 import 'package:field_flow/providers/time_tracker.dart';
 import 'package:field_flow/week_list/week_list_history_page.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
 
 class Homepage extends StatefulWidget {
@@ -21,6 +23,11 @@ class _HomepageState extends State<Homepage>
   bool checkedOut = false;
   late Duration checkInAgain;
 
+  void _positionListener() async {
+    final currentPosition = context.read<PositionProvider>().currentPosition;
+    debugPrint('position: ${currentPosition.toString()}');
+  }
+
   @override
   void initState() {
     super.initState();
@@ -29,6 +36,14 @@ class _HomepageState extends State<Homepage>
     DateTime midnight = DateTime(now.year, now.month, now.day + 1);
     Duration untilMidnight = midnight.difference(now);
     checkInAgain = widget.checkInAgain ?? untilMidnight;
+
+    context.read<PositionProvider>().addListener(_positionListener);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    context.read<PositionProvider>().removeListener(_positionListener);
   }
 
   void _resetCheckOut() {
@@ -41,20 +56,46 @@ class _HomepageState extends State<Homepage>
     });
   }
 
+  showBanner(BuildContext context, String text,
+      [List<Widget> actions = const []]) {
+    ScaffoldMessenger.of(context).removeCurrentMaterialBanner();
+    ScaffoldMessenger.of(context).showMaterialBanner(MaterialBanner(
+        content: Text(
+          text,
+          textAlign: TextAlign.center,
+        ),
+        actions: [
+          SizedBox(), // fix error
+          ...actions
+        ]));
+  }
+
+  hideBanner(BuildContext context) {
+    ScaffoldMessenger.of(context).removeCurrentMaterialBanner();
+  }
+
   @override
   Widget build(BuildContext context) {
     final timeTracker = context.watch<TimeTracker>();
+    final positionProvider = context.watch<PositionProvider>();
 
-    checkIn() {
-      timeTracker.checkIn();
-      ScaffoldMessenger.of(context).showMaterialBanner(MaterialBanner(
-          content: Text(
-            'Tracking Location',
-            textAlign: TextAlign.center,
-          ),
-          actions: [
-            Container() // fix error
-          ]));
+    checkIn() async {
+      final (canTrackPosition, error) = await positionProvider.canTrackPosition;
+      if (canTrackPosition) {
+        positionProvider.startTracking(every: Duration(seconds: 5));
+        timeTracker.checkIn();
+        showBanner(context, 'Tracking Location');
+      } else {
+        debugPrint(error);
+        showBanner(context, error!, [
+          TextButton(
+              onPressed: () => Geolocator.openAppSettings(),
+              child: Text('App Settings')),
+          TextButton(
+              onPressed: () => Geolocator.openLocationSettings(),
+              child: Text('Location Settings'))
+        ]);
+      }
     }
 
     checkOut() async {
@@ -62,10 +103,12 @@ class _HomepageState extends State<Homepage>
           await showConfirmDialog(context: context, title: 'Check Out?');
       if (confirmed) {
         timeTracker.checkOut();
+        positionProvider.stopTracking();
         setState(() {
+          // update UI
           checkedOut = true;
+          hideBanner(context);
         });
-        ScaffoldMessenger.of(context).removeCurrentMaterialBanner();
         _resetCheckOut();
       }
     }

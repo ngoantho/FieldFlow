@@ -2,6 +2,7 @@ import 'package:field_flow/mixins/build_app_bar.dart';
 import 'package:field_flow/mixins/dialog_confirm.dart';
 import 'package:field_flow/mixins/navigate_mixin.dart';
 import 'package:field_flow/model/check_entry_model.dart';
+import 'package:field_flow/nav_menu.dart';
 import 'package:field_flow/time_tracker_provider.dart';
 import 'package:field_flow/week_list_history_page.dart';
 import 'package:flutter/material.dart';
@@ -9,9 +10,8 @@ import 'package:provider/provider.dart';
 
 class Homepage extends StatefulWidget {
   final Duration? checkInAgain;
-  final Duration? closeTrackingMsg;
 
-  const Homepage({this.checkInAgain, this.closeTrackingMsg, super.key});
+  const Homepage({this.checkInAgain, super.key});
 
   @override
   State<Homepage> createState() => _HomepageState();
@@ -21,7 +21,6 @@ class _HomepageState extends State<Homepage>
     with BuildAppBar, NavigateMixin, DialogConfirmMixin {
   bool checkedOut = false;
   late Duration checkInAgain;
-  late Duration closeTrackingMsg;
 
   @override
   void initState() {
@@ -32,7 +31,17 @@ class _HomepageState extends State<Homepage>
     Duration untilMidnight = midnight.difference(now);
     checkInAgain = widget.checkInAgain ?? untilMidnight;
 
-    closeTrackingMsg = widget.closeTrackingMsg ?? Duration(hours: 8);
+    _buildBottomNavMenu();
+  }
+
+  void _buildBottomNavMenu() {
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: NavMenu(),
+            duration: Duration(days: 365)));
+      },
+    );
   }
 
   void _resetCheckOut() {
@@ -51,13 +60,14 @@ class _HomepageState extends State<Homepage>
 
     checkIn() {
       timeTracker.checkIn();
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(
-          'Tracking Location',
-          textAlign: TextAlign.center,
-        ),
-        duration: closeTrackingMsg,
-      ));
+      ScaffoldMessenger.of(context).showMaterialBanner(MaterialBanner(
+          content: Text(
+            'Tracking Location',
+            textAlign: TextAlign.center,
+          ),
+          actions: [
+            Container() // fix error
+          ]));
     }
 
     checkOut() async {
@@ -68,7 +78,7 @@ class _HomepageState extends State<Homepage>
         setState(() {
           checkedOut = true;
         });
-        ScaffoldMessenger.of(context).removeCurrentSnackBar();
+        ScaffoldMessenger.of(context).removeCurrentMaterialBanner();
         _resetCheckOut();
       }
     }

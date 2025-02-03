@@ -1,4 +1,5 @@
 import 'package:field_flow/homepage.dart';
+import 'package:field_flow/nav_menu.dart';
 import 'package:field_flow/time_tracker_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -37,7 +38,7 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
         ),
         debugShowCheckedModeBanner: false,
-        home: const Homepage(),
+        home: const NavMenu(parent: Homepage()),
       ),
     );
   }

@@ -2,7 +2,6 @@ import 'package:field_flow/mixins/build_app_bar.dart';
 import 'package:field_flow/mixins/dialog_confirm.dart';
 import 'package:field_flow/mixins/navigate_mixin.dart';
 import 'package:field_flow/model/check_entry_model.dart';
-import 'package:field_flow/nav_menu.dart';
 import 'package:field_flow/time_tracker_provider.dart';
 import 'package:field_flow/week_list_history_page.dart';
 import 'package:flutter/material.dart';
@@ -30,18 +29,6 @@ class _HomepageState extends State<Homepage>
     DateTime midnight = DateTime(now.year, now.month, now.day + 1);
     Duration untilMidnight = midnight.difference(now);
     checkInAgain = widget.checkInAgain ?? untilMidnight;
-
-    _buildBottomNavMenu();
-  }
-
-  void _buildBottomNavMenu() {
-    WidgetsBinding.instance.addPostFrameCallback(
-      (_) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: NavMenu(),
-            duration: Duration(days: 365)));
-      },
-    );
   }
 
   void _resetCheckOut() {

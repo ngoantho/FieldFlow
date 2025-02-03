@@ -8,7 +8,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class Homepage extends StatefulWidget {
-  const Homepage({super.key});
+  final Duration? checkInAgain;
+  final Duration? closeTrackingMsg;
+
+  const Homepage({this.checkInAgain, this.closeTrackingMsg, super.key});
 
   @override
   State<Homepage> createState() => _HomepageState();
@@ -17,8 +20,23 @@ class Homepage extends StatefulWidget {
 class _HomepageState extends State<Homepage>
     with BuildAppBar, NavigateMixin, DialogConfirmMixin {
   bool checkedOut = false;
+  late Duration checkInAgain;
+  late Duration closeTrackingMsg;
+
+  @override
+  void initState() {
+    super.initState();
+
+    DateTime now = DateTime.now();
+    DateTime midnight = DateTime(now.year, now.month, now.day + 1);
+    Duration untilMidnight = midnight.difference(now);
+    checkInAgain = widget.checkInAgain ?? untilMidnight;
+
+    closeTrackingMsg = widget.closeTrackingMsg ?? Duration(hours: 8);
+  }
+
   void _resetCheckOut() {
-    Future.delayed(Duration(seconds: 5), () {
+    Future.delayed(checkInAgain, () {
       if (mounted) {
         setState(() {
           checkedOut = false;
@@ -30,6 +48,30 @@ class _HomepageState extends State<Homepage>
   @override
   Widget build(BuildContext context) {
     final timeTracker = context.watch<TimeTracker>();
+
+    checkIn() {
+      timeTracker.checkIn();
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+          'Tracking Location',
+          textAlign: TextAlign.center,
+        ),
+        duration: closeTrackingMsg,
+      ));
+    }
+
+    checkOut() async {
+      bool confirmed =
+          await showConfirmDialog(context: context, title: 'Check Out?');
+      if (confirmed) {
+        timeTracker.checkOut();
+        setState(() {
+          checkedOut = true;
+        });
+        ScaffoldMessenger.of(context).removeCurrentSnackBar();
+        _resetCheckOut();
+      }
+    }
 
     return Scaffold(
         appBar: buildAppBar(title: 'FieldFlow'),
@@ -44,28 +86,9 @@ class _HomepageState extends State<Homepage>
           children: [
             if (!checkedOut)
               ElevatedButton(
-                onPressed: () async {
-                  if (timeTracker.checkInTime == null) {
-                    timeTracker.checkIn();
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      content: Text(
-                        'Tracking Location',
-                        textAlign: TextAlign.center,
-                      ),
-                      duration: Duration(hours: 8),
-                    ));
-                  } else {
-                    bool confirmed = await showConfirmDialog(
-                        context: context, title: 'Check Out?');
-                    if (confirmed) {
-                      timeTracker.checkOut();
-                      setState(() {
-                        checkedOut = true;
-                      });
-                      _resetCheckOut();
-                      ScaffoldMessenger.of(context).removeCurrentSnackBar();
-                    }
-                  }
+                onPressed: switch (timeTracker.checkInTime == null) {
+                  true => checkIn,
+                  false => checkOut,
                 },
                 style: ElevatedButton.styleFrom(
                     shape: CircleBorder(),
@@ -76,12 +99,16 @@ class _HomepageState extends State<Homepage>
                 ),
               ),
             SizedBox(height: 10),
-            Text(timeTracker.checkInTime != null
-                ? "Checked In on ${timeTracker.checkInTime?.getMmDdYyyy()} at ${timeTracker.checkInTime?.getHHmmss()}"
-                : timeTracker.checkOutTime != null ||
-                        timeTracker.lastCheckOutTime != null
-                    ? "Checked Out on ${timeTracker.lastCheckOutTime?.getMmDdYyyy()} at ${timeTracker.lastCheckOutTime?.getHHmmss()}"
-                    : ""),
+            Text(switch (timeTracker.checkInTime != null) {
+              true =>
+                "Checked In on ${timeTracker.checkInTime?.getMmDdYyyy()} at ${timeTracker.checkInTime?.getHHmmss()}",
+              false => switch (timeTracker.checkOutTime != null ||
+                    timeTracker.lastCheckOutTime != null) {
+                  true =>
+                    "Checked Out on ${timeTracker.lastCheckOutTime?.getMmDdYyyy()} at ${timeTracker.lastCheckOutTime?.getHHmmss()}",
+                  false => "",
+                },
+            }),
           ],
         )));
   }

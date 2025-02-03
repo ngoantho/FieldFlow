@@ -2,8 +2,8 @@ import 'package:field_flow/mixins/build_app_bar.dart';
 import 'package:field_flow/mixins/dialog_confirm.dart';
 import 'package:field_flow/mixins/navigate_mixin.dart';
 import 'package:field_flow/model/check_entry_model.dart';
-import 'package:field_flow/time_tracker_provider.dart';
-import 'package:field_flow/week_list_history_page.dart';
+import 'package:field_flow/providers/time_tracker.dart';
+import 'package:field_flow/week_list/week_list_history_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

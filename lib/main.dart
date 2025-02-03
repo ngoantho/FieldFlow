@@ -1,6 +1,6 @@
 import 'package:field_flow/homepage.dart';
 import 'package:field_flow/nav_menu.dart';
-import 'package:field_flow/time_tracker_provider.dart';
+import 'package:field_flow/providers/time_tracker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

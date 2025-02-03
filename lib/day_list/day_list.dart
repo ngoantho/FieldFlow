@@ -1,4 +1,4 @@
-import 'package:field_flow/day_detail_page.dart';
+import 'package:field_flow/day_detail/day_detail_page.dart';
 import 'package:field_flow/model/day_model.dart';
 import 'package:field_flow/model/week_model.dart';
 import 'package:flutter/material.dart';

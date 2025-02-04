@@ -95,6 +95,7 @@ class _HomepageState extends State<Homepage>
           FieldFlowBanner.hide(context);
         });
         _resetCheckOut();
+
       }
     }
 

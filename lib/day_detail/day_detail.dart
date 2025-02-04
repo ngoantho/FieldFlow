@@ -21,7 +21,7 @@ class DayDetail extends StatelessWidget {
             children: [
               Expanded(
                   child: Text(
-                      '           You spent ${location.duration.} hours at Location: ${location.latitude} - ${location.longitude}\n\n\n',
+                      '           You spent ${location.duration} hours at Location: ${location.latitude} - ${location.longitude}\n\n\n',
                       textAlign: TextAlign.justify)),
             ],
           );

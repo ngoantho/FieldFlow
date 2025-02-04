@@ -28,7 +28,7 @@ class _HomepageState extends State<Homepage>
   void _positionListener() async {
     final currentPosition = context.read<PositionProvider>().currentPosition;
     rawPositions.add((currentPosition!, DateTime.now()));
-    debugPrint('position: ${currentPosition.toString()}');
+    debugPrint('position: ${currentPosition.toString()} ');
   }
 
   @override

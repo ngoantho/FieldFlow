@@ -8,6 +8,7 @@ import 'package:field_flow/week_list/week_list_history_page.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
+import 'package:field_flow/banner.dart';
 
 class Homepage extends StatefulWidget {
   final Duration? checkInAgain;
@@ -56,24 +57,6 @@ class _HomepageState extends State<Homepage>
     });
   }
 
-  showBanner(BuildContext context, String text,
-      [List<Widget> actions = const []]) {
-    ScaffoldMessenger.of(context).removeCurrentMaterialBanner();
-    ScaffoldMessenger.of(context).showMaterialBanner(MaterialBanner(
-        content: Text(
-          text,
-          textAlign: TextAlign.center,
-        ),
-        actions: [
-          SizedBox(), // fix error
-          ...actions
-        ]));
-  }
-
-  hideBanner(BuildContext context) {
-    ScaffoldMessenger.of(context).removeCurrentMaterialBanner();
-  }
-
   @override
   Widget build(BuildContext context) {
     final timeTracker = context.watch<TimeTracker>();
@@ -84,10 +67,10 @@ class _HomepageState extends State<Homepage>
       if (canTrackPosition) {
         positionProvider.startTracking(every: Duration(seconds: 5));
         timeTracker.checkIn();
-        showBanner(context, 'Tracking Location');
+        FieldFlowBanner.show(context, 'Tracking Location');
       } else {
         debugPrint(error);
-        showBanner(context, error!, [
+        FieldFlowBanner.show(context, error!, [
           TextButton(
               onPressed: () => Geolocator.openAppSettings(),
               child: Text('App Settings')),
@@ -107,7 +90,7 @@ class _HomepageState extends State<Homepage>
         setState(() {
           // update UI
           checkedOut = true;
-          hideBanner(context);
+          FieldFlowBanner.hide(context);
         });
         _resetCheckOut();
       }

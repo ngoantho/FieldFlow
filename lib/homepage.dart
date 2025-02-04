@@ -23,9 +23,11 @@ class _HomepageState extends State<Homepage>
     with BuildAppBar, NavigateMixin, DialogConfirmMixin {
   bool checkedOut = false;
   late Duration checkInAgain;
+  final rawPositions = <(Position, DateTime)>[];
 
   void _positionListener() async {
     final currentPosition = context.read<PositionProvider>().currentPosition;
+    rawPositions.add((currentPosition!, DateTime.now()));
     debugPrint('position: ${currentPosition.toString()}');
   }
 
@@ -85,8 +87,8 @@ class _HomepageState extends State<Homepage>
       bool confirmed =
           await showConfirmDialog(context: context, title: 'Check Out?');
       if (confirmed) {
-        timeTracker.checkOut();
         positionProvider.stopTracking();
+        timeTracker.checkOut(rawPositions);
         setState(() {
           // update UI
           checkedOut = true;

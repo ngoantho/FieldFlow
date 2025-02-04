@@ -12,8 +12,8 @@ class PositionProvider with ChangeNotifier {
   Position? currentPosition;
 
   PositionProvider({
-    this.locationAccuracy = LocationAccuracy.high,
-    required this.distanceFilterInMeters,
+    this.locationAccuracy = LocationAccuracy.best,
+    this.distanceFilterInMeters = 1,
     this.timeLimit,
   }) {
     _locationSettings = LocationSettings(
@@ -62,7 +62,7 @@ class PositionProvider with ChangeNotifier {
   }
 
   void startTracking({Duration every = const Duration(hours: 1)}) {
-    _timer = Timer(every, () async {
+    _timer = Timer.periodic(every, (_) async {
       currentPosition = await Geolocator.getCurrentPosition(
           locationSettings: _locationSettings);
       notifyListeners();

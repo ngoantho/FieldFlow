@@ -12,7 +12,7 @@ void main() {
         create: (context) => TimeTracker(),
       ),
       ChangeNotifierProvider(
-        create: (context) => PositionProvider(distanceFilterInMeters: 10),
+        create: (context) => PositionProvider(),
       )
     ],
     child: const MyApp(),

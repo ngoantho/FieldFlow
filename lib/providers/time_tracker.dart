@@ -3,6 +3,7 @@ import 'package:field_flow/model/check_entry_model.dart';
 import 'package:field_flow/model/day_model.dart';
 import 'package:field_flow/model/week_model.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 
 class TimeTracker with ChangeNotifier {
   DateTime? checkInTime;
@@ -16,7 +17,7 @@ class TimeTracker with ChangeNotifier {
     notifyListeners();
   }
 
-  void checkOut() {
+  void checkOut(List<(Position, DateTime)> positions) {
     checkOutTime = DateTime.now();
     lastCheckOutTime = checkOutTime;
 

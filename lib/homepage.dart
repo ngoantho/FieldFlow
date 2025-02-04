@@ -27,8 +27,9 @@ class _HomepageState extends State<Homepage>
 
   void _positionListener() async {
     final currentPosition = context.read<PositionProvider>().currentPosition;
-    rawPositions.add((currentPosition!, DateTime.now()));
-    debugPrint('position: ${currentPosition.toString()} ');
+    final currentTime = DateTime.now();
+    rawPositions.add((currentPosition!, currentTime));
+    debugPrint('position: ${currentPosition.toString()} at $currentTime');
   }
 
   @override
@@ -95,7 +96,6 @@ class _HomepageState extends State<Homepage>
           FieldFlowBanner.hide(context);
         });
         _resetCheckOut();
-
       }
     }
 

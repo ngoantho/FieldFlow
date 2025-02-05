@@ -1,4 +1,3 @@
-import 'package:field_flow/mock_data/mock_locations.dart';
 import 'package:field_flow/model/check_entry_model.dart';
 import 'package:field_flow/model/day_model.dart';
 import 'package:field_flow/model/location_model.dart';
@@ -78,12 +77,12 @@ class TimeTracker with ChangeNotifier {
       Position startPosition = data[start].$1;
       DateTime startTime = data[start].$2;
       DateTime endTime = startTime;
-      debugPrint(" Start Position: ${startPosition} - StartTime: {$startTime}\n");
+      debugPrint(" Start Position: $startPosition - StartTime: {$startTime}\n");
       int end = start;
       while(end+1<data.length) {
         Position nextPosition = data[end+1].$1;
         DateTime nextTime = data[end+1].$2;
-        debugPrint(" Next Position: ${nextPosition} - NextTime: {$nextTime}\n");
+        debugPrint(" Next Position: $nextPosition - NextTime: {$nextTime}\n");
 
         double distance = Geolocator.distanceBetween(
             startPosition.latitude, startPosition.longitude,
@@ -94,7 +93,7 @@ class TimeTracker with ChangeNotifier {
         if (distance > 50) {
           start = end + 1;
           break;
-        };
+        }
 
         end++;
       }

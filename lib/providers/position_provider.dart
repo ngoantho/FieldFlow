@@ -68,9 +68,10 @@ class PositionProvider with ChangeNotifier {
     func(_) async {
       currentPosition = await Geolocator.getCurrentPosition(
           locationSettings: _locationSettings);
+      callback();
       notifyListeners();
     }
-
+    
     func(null);
 
     _timer = Timer.periodic(every, func);

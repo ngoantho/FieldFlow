@@ -12,13 +12,17 @@ class TimeTracker with ChangeNotifier {
   List<WeekModel> weekList = [];
   WeekModel? currentWeek;
   List<LocationModel> locationList = [];
+  bool checkedIn = false;
+  bool checkedOut = false;
 
   void checkIn() {
     checkInTime = DateTime.now();
+    checkedIn = true;
     notifyListeners();
   }
 
   void checkOut(List<(Position, DateTime)> rawPositions) {
+    checkedOut = true;
     checkOutTime = DateTime.now();
     lastCheckOutTime = checkOutTime;
     List<(Position, DateTime)> data = rawPositions;

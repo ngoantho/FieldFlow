@@ -40,14 +40,6 @@ class _HomepageState extends State<Homepage>
     DateTime midnight = DateTime(now.year, now.month, now.day + 1);
     Duration untilMidnight = midnight.difference(now);
     checkInAgain = widget.checkInAgain ?? untilMidnight;
-
-    context.read<PositionProvider>().addListener(_positionListener);
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    context.read<PositionProvider>().removeListener(_positionListener);
   }
 
   void _resetCheckOut() {
@@ -68,7 +60,7 @@ class _HomepageState extends State<Homepage>
     checkIn() async {
       final (canTrackPosition, error) = await positionProvider.canTrackPosition;
       if (canTrackPosition) {
-        positionProvider.startTracking(every: Duration(seconds: 5));
+        positionProvider.startTracking(_positionListener);
         timeTracker.checkIn();
         FieldFlowBanner.show(context, 'Tracking Location');
       } else {

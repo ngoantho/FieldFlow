@@ -14,7 +14,7 @@ class TimeTracker with ChangeNotifier {
   List<LocationModel> locationList = [];
 
   void checkIn() {
-    checkInTime = DateTime.now().subtract(Duration(hours: 8));
+    checkInTime = DateTime.now();
     notifyListeners();
   }
 
@@ -27,7 +27,7 @@ class TimeTracker with ChangeNotifier {
     if (checkInTime == null || checkOutTime == null) return;
 
     // fill in times
-    final CheckEntryModel checkEntry = CheckEntryModel(checkInTime, checkOutTime);
+    final checkEntry = CheckEntryModel(checkInTime, checkOutTime);
 
     // create day model
     final newDay = DayModel(checkEntry, locationList);
@@ -52,7 +52,6 @@ class TimeTracker with ChangeNotifier {
       subtract .weekday - 1 moves the date back to Monday of that week
      */
     DateTime startWeekFlag = checkInDate.subtract(Duration(days: checkInDate.weekday - 1));
-
     DateTime endWeekFlag = startWeekFlag.add(Duration(days: 6, hours: 23, minutes: 59, seconds: 59));
 
     if (currentWeek == null || currentWeek!.dayList.isEmpty || checkInDate.isAfter(endWeekFlag)) {

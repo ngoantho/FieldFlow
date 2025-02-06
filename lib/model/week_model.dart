@@ -11,7 +11,6 @@ class WeekModel{
   }
   @override
   String toString() {
-    // TODO: implement toString
     return 'Week Report: \n'
         '${dayList[0].getMmDdYyyy} - ${dayList.last.getMmDdYyyy} \n'
         'Total Work Hour: $getWorkHour';

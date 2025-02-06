@@ -31,6 +31,7 @@ class _NavMenuState extends State<NavMenu> {
   void initState() {
     super.initState();
 
+    // show snackbar after 1 frame
     WidgetsBinding.instance.addPostFrameCallback(
       (_) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(

@@ -47,7 +47,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,
-      home: const NavMenu(parent: Homepage(checkInAgain: Duration(seconds: 5),)),
+      home: const NavMenu(parent: Homepage(checkInAgain: Duration(seconds: 5))),
     );
   }
 }

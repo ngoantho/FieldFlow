@@ -32,8 +32,8 @@ main() {
 
       // Check for main text components
 
-      expect(find.textContaining("Check-in at: ${checkInTime} \n"), findsOneWidget);
-      expect(find.textContaining('Check-out at: ${checkOutTime}\n\n\n'), findsOneWidget);
+      expect(find.textContaining("Check-in at: $checkInTime \n"), findsOneWidget);
+      expect(find.textContaining('Check-out at: $checkOutTime\n\n\n'), findsOneWidget);
     });
   });
 }

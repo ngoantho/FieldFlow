@@ -8,4 +8,3 @@
 flutter pub global run full_coverage
 flutter test --coverage
 reportgenerator "-reports:./coverage/lcov.info" "-targetdir:./coverage/report" '-filefilters:-lib\generated\**'
-start ./coverage/report/index.html

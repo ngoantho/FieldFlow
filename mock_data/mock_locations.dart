@@ -1,4 +1,4 @@
-import '../model/location_model.dart';
+import 'package:field_flow/model/location_model.dart';
 
 final mockLocations = [
   LocationModel(47.6205, -122.3493, Duration(hours: 3)),

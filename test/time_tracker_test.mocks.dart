@@ -88,6 +88,28 @@ class MockTimeTracker extends _i1.Mock implements _i2.TimeTracker {
       );
 
   @override
+  bool get checkedIn =>
+      (super.noSuchMethod(Invocation.getter(#checkedIn), returnValue: false)
+          as bool);
+
+  @override
+  set checkedIn(bool? _checkedIn) => super.noSuchMethod(
+    Invocation.setter(#checkedIn, _checkedIn),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  bool get checkedOut =>
+      (super.noSuchMethod(Invocation.getter(#checkedOut), returnValue: false)
+          as bool);
+
+  @override
+  set checkedOut(bool? _checkedOut) => super.noSuchMethod(
+    Invocation.setter(#checkedOut, _checkedOut),
+    returnValueForMissingStub: null,
+  );
+
+  @override
   bool get hasListeners =>
       (super.noSuchMethod(Invocation.getter(#hasListeners), returnValue: false)
           as bool);

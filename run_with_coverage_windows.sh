@@ -1,3 +1,5 @@
+#!/usr/bin/bash
+
 # for collecting coverage data on Windows with Git Bash
 # the canonical, Perl-based HTML generator wasn't as easy to set up as the dotnet reportgenerator:
 # winget install Microsoft.DotNet.SDK.8 # if you don't already have the dotnet CLI

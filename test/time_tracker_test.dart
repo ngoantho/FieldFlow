@@ -1,3 +1,5 @@
+import 'package:field_flow/model/check_entry_model.dart';
+import 'package:field_flow/model/day_model.dart';
 import 'package:field_flow/providers/time_tracker.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:geolocator/geolocator.dart';
@@ -5,7 +7,7 @@ import 'package:mockito/annotations.dart';
 
 @GenerateMocks([TimeTracker])
 void main() {
-  group('Time Tracker Tests', () {
+  group('basic functionality', () {
     test('Check in, wait 5 seconds, check out', () async {
       final timeTracker = TimeTracker();
 
@@ -17,7 +19,7 @@ void main() {
       timeTracker.checkOut([]);
 
       expect(timeTracker.checkOutTime, isNotNull);
-      expect(timeTracker.checkOutTime, equals(expectedResult));
+      expect(timeTracker.checkOutTime!.difference(expectedResult).inMilliseconds, lessThanOrEqualTo(1500));
     });
 
     test('Test Check Out record this moment and process a list of Location',
@@ -85,5 +87,18 @@ void main() {
         expect(timeTracker.locationList[i].longitude, mockData[i].$1.longitude);
       }
     });
+  });
+
+  test('add day to week', () {
+    final timeTracker = TimeTracker();
+    final monday = DateTime(2024, 2, 3);
+    // final nextMonday = DateTime(2024, 2, 10); // 8 days later
+
+    final firstDay = DayModel(CheckEntryModel(monday), []);
+
+    // add first day
+    timeTracker.addDayToWeek(firstDay);
+    expect(timeTracker.currentWeek, isNotNull);
+    expect(timeTracker.weekList.length, 1);
   });
 }

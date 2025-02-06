@@ -33,12 +33,9 @@ class TimeTracker with ChangeNotifier {
     final newDay = DayModel(checkEntry, locationList);
 
     rawPositions.clear();
+    locationList = []; // <- keep
     // add day to week
     addDayToWeek(newDay);
-    // delay
-    checkInTime = null;
-    checkOutTime = null;
-    locationList = [];
     // notify UI
     notifyListeners();
   }

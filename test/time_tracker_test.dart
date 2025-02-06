@@ -6,23 +6,22 @@ import 'package:mockito/annotations.dart';
 @GenerateMocks([TimeTracker])
 void main() {
   group('Time Tracker Tests', () {
-    // testWidgets('Test Check In record the moment 8 hours ago from now', (tester) async{
-    //   final timeTracker = TimeTracker();
+    test('Check in, wait 5 seconds, check out', () async {
+      final timeTracker = TimeTracker();
 
-    //   timeTracker.checkIn();
-    //   expect(timeTracker.checkInTime, isNotNull);
+      timeTracker.checkIn();
+      expect(timeTracker.checkInTime, isNotNull);
 
-    //   await Future.delayed(Duration(seconds: 5));
-    //   final expectedResult = DateTime.now();
-    //   timeTracker.checkOut([]);
+      await Future.delayed(Duration(seconds: 5));
+      final expectedResult = DateTime.now();
+      timeTracker.checkOut([]);
 
-    //   expect(timeTracker.checkOutTime, isNotNull);
-    //   expect(timeTracker.checkOutTime!.difference(expectedResult).inSeconds, lessThanOrEqualTo(1));
-    // });
+      expect(timeTracker.checkOutTime, isNotNull);
+      expect(timeTracker.checkOutTime, equals(expectedResult));
+    });
 
-    testWidgets(
-        'Test Check Out record this moment and process a list of Location',
-        (tester) async {
+    test('Test Check Out record this moment and process a list of Location',
+        () async {
       final timeTracker = TimeTracker();
       timeTracker.checkIn();
 

@@ -28,36 +28,5 @@ class DayDetail extends StatelessWidget {
         }),
       ],
     ));
-    // return SingleChildScrollView(
-    //     child: Column(
-    //       crossAxisAlignment: CrossAxisAlignment                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             .start,
-    //       children:[
-    //         Padding(
-    //           padding: EdgeInsets.all(8.0),
-    //           child: Text(
-    //               "${dayModel.dayOfWeek} - ${dayModel.getDdMmYyyy} - Detail Report\n"
-    //                                   "Check-in at: ${dayModel.checkEntry.checkInTime}\n"
-    //                                   "Check-out at: ${dayModel.checkEntry.checkOutTime}"
-    //           ),
-    //         ),
-    //         //Workout Exercise List out
-    //         ...dayModel.locationList.map((location) {
-    //           return Row(
-    //             children: [
-    //               Expanded(
-    //                 child: Text(
-    //                     'You spent ${location.duration.inHours} hours at Location: ${location.latitude} - ${location.longitude} \n'
-    //                 ),
-    //               ),
-    //
-    //             ],
-    //           );
-    //         }).toList(),
-    //
-    //       ],
-    //
-    //
-    //     )
-    // );
   }
 }

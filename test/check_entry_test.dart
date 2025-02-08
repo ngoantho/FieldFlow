@@ -8,14 +8,20 @@ void main() {
       expect(model.checkInTime, isNull);
 
       model.checkIn();
-      expect(model.checkInTime, equals(DateTime.now()));
+      final expectedResult = DateTime.now();
+      //expect(model.checkInTime, equals(DateTime.now()));
+      expect(model.checkInTime!.difference(expectedResult).inMilliseconds, lessThanOrEqualTo(100));
+
     });
     test('Test Check Out successfully captured now() time', () {
       final model = CheckEntryModel();
       expect(model.checkOutTime, isNull);
 
       model.checkOut();
-      expect(model.checkOutTime, equals(DateTime.now()));
+      final expectedResult = DateTime.now();
+      //expect(model.checkOutTime, equals(DateTime.now()));
+      expect(model.checkOutTime!.difference(expectedResult).inMilliseconds, lessThanOrEqualTo(100));
+
     });
     test('Test if model successful reset its variable after called reset()', () {
       final model = CheckEntryModel();

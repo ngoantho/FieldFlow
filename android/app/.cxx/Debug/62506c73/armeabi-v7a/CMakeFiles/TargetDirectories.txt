@@ -1,2 +1,0 @@
-C:/Users/antho/Projects/SU/Mobile Software Dev/field_flow/android/app/.cxx/Debug/62506c73/armeabi-v7a/CMakeFiles/edit_cache.dir
-C:/Users/antho/Projects/SU/Mobile Software Dev/field_flow/android/app/.cxx/Debug/62506c73/armeabi-v7a/CMakeFiles/rebuild_cache.dir

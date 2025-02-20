@@ -63,7 +63,7 @@ class PositionProvider with ChangeNotifier {
 
   void startTracking(
     void Function() callback, {
-    Duration every = const Duration(seconds: 1),
+    Duration every = const Duration(seconds: 5),
   }) {
     func(_) async {
       currentPosition = await Geolocator.getCurrentPosition(
@@ -71,7 +71,7 @@ class PositionProvider with ChangeNotifier {
       callback();
       notifyListeners();
     }
-    
+
     func(null);
 
     _timer = Timer.periodic(every, func);

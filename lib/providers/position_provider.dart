@@ -78,10 +78,10 @@ class PositionProvider with ChangeNotifier {
   }
 
   void stopTracking() {
-    print('Stopping tracking...');
+    debugPrint('Stopping tracking...');
     _timer?.cancel();
     _timer = null;
-    print('Tracking stopped.');
+    debugPrint('Tracking stopped.');
   }
 
   bool get isTracking {

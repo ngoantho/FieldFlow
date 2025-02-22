@@ -5,6 +5,7 @@ import 'package:field_flow/providers/time_tracker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'db/firestore_helper.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -16,12 +17,14 @@ void main() async {
 
   runApp(MultiProvider(
     providers: [
+      Provider(create: (context) => FirestoreHelper()),
+
       ChangeNotifierProvider(
-        create: (context) => TimeTracker(),
+        create: (context) => TimeTracker(firestoreHelper: Provider.of<FirestoreHelper>(context, listen: false)),
       ),
       ChangeNotifierProvider(
         create: (context) => PositionProvider(),
-      )
+      ),
     ],
     child: const MyApp(),
   ));

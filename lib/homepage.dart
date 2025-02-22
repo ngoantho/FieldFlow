@@ -44,7 +44,7 @@ class _HomepageState extends State<Homepage>
             onPressed: () {
               navigateTo(context: context, widget: WeekListHistoryPage());
             },
-            child: Text('Week Report')),
+            child:  Text('Week Report')),
         body: Center(
             child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

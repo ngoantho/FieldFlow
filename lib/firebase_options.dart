@@ -59,4 +59,5 @@ class DefaultFirebaseOptions {
     projectId: 'field-flow-60ce0',
     storageBucket: 'field-flow-60ce0.firebasestorage.app',
   );
+
 }

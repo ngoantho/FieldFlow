@@ -12,9 +12,12 @@ class WeekListHistoryPage extends StatelessWidget with BuildAppBar {
         length: 2,
         child: Scaffold(
           appBar: buildAppBar(title: 'Week Report'),
-          body: TabBarView(children: [const WeekList(), ChooseWorkerPage()]),
+          body: TabBarView(children: [
+            WeekList(id: DateTime.now().weekday.toString()),
+            ChooseWorkerPage()
+          ]),
           bottomNavigationBar: TabBar(tabs: [
-            Tab(text: 'Worker'),
+            Tab(text: 'Worker (ID: ${DateTime.now().weekday.toString()})'),
             Tab(
               text: 'Manager',
             )

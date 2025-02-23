@@ -6,15 +6,19 @@ import 'package:provider/provider.dart';
 import '../db/firestore_helper.dart';
 
 class WeekList extends StatelessWidget {
-  const WeekList({super.key});
+  final String id;
+
+  const WeekList({super.key, required this.id});
 
   @override
   Widget build(BuildContext context) {
-    final firestoreService = Provider.of<FirestoreHelper>(context, listen: false);
+    final firestoreService =
+        Provider.of<FirestoreHelper>(context, listen: false);
 
     return StreamBuilder<List<WeekModel>>(
-      stream: firestoreService.getWeeksStream(),
+      stream: firestoreService.getWeeksStream(userId: id),
       builder: (context, snapshot) {
+        debugPrint("getWeekStream: $id");
         if (!snapshot.hasData) {
           return Center(child: CircularProgressIndicator());
         }
@@ -33,22 +37,20 @@ class WeekList extends StatelessWidget {
   }
 }
 
-class _WeekListItem extends StatelessWidget{
+class _WeekListItem extends StatelessWidget {
   final WeekModel week;
   const _WeekListItem(this.week);
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25))
-      ),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(25))),
       child: Text(week.toString()),
       onPressed: () {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => DayListHistoryPage(weekModel: week),
-          )
-        );
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => DayListHistoryPage(weekModel: week),
+        ));
       },
     );
   }

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:geolocator/geolocator.dart';
 
 class PositionProvider with ChangeNotifier {
@@ -51,10 +52,13 @@ class PositionProvider with ChangeNotifier {
     }
 
     if (permission == LocationPermission.deniedForever) {
+      Geolocator.openAppSettings();
       // Permissions are denied forever, handle appropriately.
       return (
-        false,
-        'Location permissions are permanently denied, we cannot request permissions.'
+        true, null,
+
+        // false,
+        // 'Location permissions are permanently denied, we cannot request permissions.'
       );
     }
 
@@ -76,11 +80,14 @@ class PositionProvider with ChangeNotifier {
       callback();
       notifyListeners();
     });
+
+    FlutterBackgroundService().invoke("startTracking");
   }
 
   void stopTracking() {
     _positionStreamSubscription?.cancel();
     _positionStreamSubscription = null;
+    FlutterBackgroundService().invoke("stopTracking");
     debugPrint('Tracking stopped.');
   }
 

@@ -3,6 +3,7 @@ import 'package:field_flow/nav_menu.dart';
 import 'package:field_flow/providers/position_provider.dart';
 import 'package:field_flow/providers/time_tracker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'db/firestore_helper.dart';
@@ -17,9 +18,10 @@ void main() async {
   runApp(MultiProvider(
     providers: [
       Provider(create: (context) => FirestoreHelper()),
-
       ChangeNotifierProvider(
-        create: (context) => TimeTracker(firestoreHelper: Provider.of<FirestoreHelper>(context, listen: false)),
+        create: (context) => TimeTracker(
+            firestoreHelper:
+                Provider.of<FirestoreHelper>(context, listen: false)),
       ),
       ChangeNotifierProvider(
         create: (context) => PositionProvider(),
@@ -27,6 +29,34 @@ void main() async {
     ],
     child: const MyApp(),
   ));
+}
+
+Future<void> initializeBackgroundService() async {
+  final service = FlutterBackgroundService();
+  await service.configure(
+      iosConfiguration: IosConfiguration(autoStart: false),
+      androidConfiguration: AndroidConfiguration(
+          onStart: serviceOnStart,
+          isForegroundMode: true,
+          autoStart: false,
+          autoStartOnBoot: false,
+          foregroundServiceTypes: [AndroidForegroundType.location]));
+}
+
+Future<void> serviceOnStart(ServiceInstance service) async {
+  if (service is AndroidServiceInstance) {
+    service.setAsForegroundService();
+  }
+
+  service.on("startTracking").listen((event) {
+    PositionProvider().startTracking(() {
+      debugPrint("Background Tracking Running");
+    });
+  });
+
+  service.on("stopTracking").listen((event) {
+    PositionProvider().stopTracking();
+  });
 }
 
 class MyApp extends StatelessWidget {

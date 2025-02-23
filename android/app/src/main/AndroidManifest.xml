@@ -31,9 +31,13 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCOo8IIwIdlBUCkiKQ8cBsVir-QHE3nz24" />
+
         <service
-            android:name="id.flutter.flutter_background_service.BackgroundService"
-            android:foregroundServiceType="location"
+            android:name="id.flutter.flutter_background_service.BackgroundService" />
         />
     </application>
     <!-- Required to query activities that can process text, see:

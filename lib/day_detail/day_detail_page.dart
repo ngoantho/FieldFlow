@@ -1,4 +1,5 @@
 import 'package:field_flow/model/day_model.dart';
+import 'package:field_flow/pathMap/pathMap.dart';
 import 'package:flutter/material.dart';
 
 import 'day_detail.dart';
@@ -11,9 +12,14 @@ class DayDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: DayDetail(
-        dayModel: dayModel,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            DayDetail(dayModel: dayModel),
+          ],
+        ),
       ),
-    );
+      );
+
   }
 }

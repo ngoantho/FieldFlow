@@ -44,13 +44,12 @@ class _HomepageState extends State<Homepage>
             onPressed: () {
               navigateTo(context: context, widget: WeekListHistoryPage());
             },
-            child:  Text('Week Report')),
+            child: Text('Week Report')),
         body: Center(
             child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            if (!timeTracker.checkedOut)
-              CheckInOutButton(),
+            if (!timeTracker.checkedOut) CheckInOutButton(),
             SizedBox(height: 10),
             CheckedInOutText(),
           ],

@@ -16,7 +16,6 @@ import 'package:field_flow/model/check_entry_model.dart';
 import 'package:field_flow/model/day_model.dart';
 import 'package:field_flow/model/location_model.dart';
 import 'package:field_flow/model/week_model.dart';
-import 'package:field_flow/nav_menu.dart';
 import 'package:field_flow/providers/position_provider.dart';
 import 'package:field_flow/providers/time_tracker.dart';
 import 'package:field_flow/week_list/week_list.dart';

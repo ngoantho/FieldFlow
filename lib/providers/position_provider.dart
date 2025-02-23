@@ -54,10 +54,13 @@ class PositionProvider with ChangeNotifier {
     }
 
     if (permission == LocationPermission.deniedForever) {
+      Geolocator.openAppSettings();
       // Permissions are denied forever, handle appropriately.
       return (
-        false,
-        'Location permissions are permanently denied, we cannot request permissions.'
+          true, null,
+
+          // false,
+        // 'Location permissions are permanently denied, we cannot request permissions.'
       );
     }
 
@@ -78,20 +81,20 @@ class PositionProvider with ChangeNotifier {
       locationSettings: _locationSettings
     ).listen((Position position) {
       currentPosition = position;
-      logTime = DateTime.now();
+      logTime = position.timestamp;
       debugPrint("Tracking Location: ${position.latitude}, ${position.longitude}");
       callback();
       notifyListeners();
     });
 
-    FlutterBackgroundService().startService();
+    FlutterBackgroundService().invoke("startTracking");
   }
 
   void stopTracking() {
     _positionStreamSubscription?.cancel();
     // _timeListener.cancel();
     _positionStreamSubscription = null;
-    FlutterBackgroundService().invoke("stopService");
+    FlutterBackgroundService().invoke("stopTracking");
     debugPrint('Tracking stopped.');
   }
 

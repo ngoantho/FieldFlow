@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:flutter_background_service/flutter_background_service.dart';
+import 'package:time_listener/time_listener.dart';
 
 class PositionProvider with ChangeNotifier {
   LocationAccuracy locationAccuracy;
@@ -10,10 +12,13 @@ class PositionProvider with ChangeNotifier {
   late LocationSettings _locationSettings;
   Timer? _timer;
   Position? currentPosition;
+  DateTime? logTime;
+  StreamSubscription<Position>? _positionStreamSubscription;
+  // final _timeListener = TimeListener.create(interval: CheckInterval.seconds);
 
   PositionProvider({
     this.locationAccuracy = LocationAccuracy.best,
-    this.distanceFilterInMeters = 1,
+    this.distanceFilterInMeters = 5,
     this.timeLimit,
   }) {
     _locationSettings = LocationSettings(
@@ -61,26 +66,32 @@ class PositionProvider with ChangeNotifier {
     return (true, null);
   }
 
-  void startTracking(
-    void Function() callback, {
-    Duration every = const Duration(seconds: 5),
-  }) {
-    func(_) async {
-      currentPosition = await Geolocator.getCurrentPosition(
-          locationSettings: _locationSettings);
+  void startTracking(void Function() callback) {
+    _positionStreamSubscription?.cancel(); // Stop any existing tracking
+    // _timeListener.cancel();
+
+    // _timeListener.listen((dt) {
+    //   logTime = dt;
+    // });
+
+    _positionStreamSubscription = Geolocator.getPositionStream(
+      locationSettings: _locationSettings
+    ).listen((Position position) {
+      currentPosition = position;
+      logTime = DateTime.now();
+      debugPrint("Tracking Location: ${position.latitude}, ${position.longitude}");
       callback();
       notifyListeners();
-    }
+    });
 
-    func(null);
-
-    _timer = Timer.periodic(every, func);
+    FlutterBackgroundService().startService();
   }
 
   void stopTracking() {
-    debugPrint('Stopping tracking...');
-    _timer?.cancel();
-    _timer = null;
+    _positionStreamSubscription?.cancel();
+    // _timeListener.cancel();
+    _positionStreamSubscription = null;
+    FlutterBackgroundService().invoke("stopService");
     debugPrint('Tracking stopped.');
   }
 

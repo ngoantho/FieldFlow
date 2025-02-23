@@ -3,13 +3,13 @@ import 'package:field_flow/nav_menu.dart';
 import 'package:field_flow/providers/position_provider.dart';
 import 'package:field_flow/providers/time_tracker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'db/firestore_helper.dart';
 import 'firebase_options.dart';
 
 void main() async {
-
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -28,6 +28,26 @@ void main() async {
     ],
     child: const MyApp(),
   ));
+}
+
+get serviceOnStart {
+  debugPrint("background service started");
+}
+
+Future<void> initializeBackgroundService() async {
+  final service = FlutterBackgroundService();
+  await service.configure(
+      iosConfiguration: IosConfiguration(
+        autoStart: false
+      ),
+      androidConfiguration: AndroidConfiguration(
+          onStart: serviceOnStart,
+          isForegroundMode: false,
+          autoStart: false,
+          autoStartOnBoot: false,
+        foregroundServiceTypes: [AndroidForegroundType.location]
+      )
+  );
 }
 
 class MyApp extends StatelessWidget {

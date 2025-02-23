@@ -12,8 +12,8 @@ class CheckInOutButtonState extends State<CheckInOutButton> with DialogConfirmMi
 
   void _positionListener() async {
     final currentPosition = context.read<PositionProvider>().currentPosition;
-    final currentTime = DateTime.now();
-    rawPositions.add((currentPosition!, currentTime));
+    final currentTime = context.read<PositionProvider>().logTime;
+    rawPositions.add((currentPosition!, currentTime!));
     debugPrint('position: ${currentPosition.toString()} at $currentTime');
   }
 

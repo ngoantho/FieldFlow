@@ -37,6 +37,10 @@ class FirestoreHelper {
     return _firestore.collection('check_entries').snapshots().map((snapshot) {
       return snapshot.docs.map((doc) {
         var data = doc.data();
+
+        if (data['checkOutTime'] == null || (data['locations'] as List<dynamic>).isEmpty) {
+          return null;
+        }
         return DayModel(
           CheckEntryModel(
             DateTime.parse(data['checkInTime']),
@@ -50,7 +54,7 @@ class FirestoreHelper {
             );
           }).toList(),
         );
-      }).toList();
+      }).where((day) => day != null).cast<DayModel>().toList();
     });
   }
 

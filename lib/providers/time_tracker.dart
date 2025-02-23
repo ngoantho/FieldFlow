@@ -40,39 +40,21 @@ class TimeTracker with ChangeNotifier {
     await _firestoreHelper.saveCheckOut(currentEntryId!, checkOutTime!, locationList);
 
     rawPositions.clear();
-    locationList = []; // <- keep
+    locationList = [];
     // notify UI
     notifyListeners();
   }
-
-  // addDayToWeek(DayModel day) {
-  //   DateTime checkInDate = day.checkEntry.checkInTime!;
-  //
-  //   /*
-  //     .weekday returns a value from 1 to 7
-  //     .weekday - 1 gets how many days have passed since monday
-  //     subtract .weekday - 1 moves the date back to Monday of that week
-  //    */
-  //   DateTime startWeekFlag = checkInDate.subtract(Duration(days: checkInDate.weekday - 1));
-  //   DateTime endWeekFlag = startWeekFlag.add(Duration(days: 6, hours: 23, minutes: 59, seconds: 59));
-  //
-  //   if (currentWeek == null || currentWeek!.dayList.isEmpty || checkInDate.isAfter(endWeekFlag)) {
-  //     // new week
-  //     if (currentWeek != null && currentWeek!.dayList.isNotEmpty) {
-  //       weekList.add(currentWeek!);
-  //     }
-  //     currentWeek = WeekModel([day]);
-  //     weekList.add(currentWeek!);
-  //   } else {
-  //     // add to existing week
-  //     currentWeek!.dayList.add(day);
-  //   }
-  // }
 
   List<LocationModel> processRawPosition(List<(Position, DateTime)> data) {
 
     List<LocationModel> result = [];
     int start = 0;
+    for (int i = 0; i < data.length; i++) {
+      Position position = data[i].$1;
+      DateTime timestamp = data[i].$2;
+
+      debugPrint("[$i] Lat: ${position.latitude}, Lng: ${position.longitude}, Time: $timestamp");
+    }
 
     while (start <data.length){
       Position startPosition = data[start].$1;
@@ -91,7 +73,7 @@ class TimeTracker with ChangeNotifier {
         );
 
         endTime = nextTime;
-        if (distance > 50) {
+        if (distance > 5) {
           start = end + 1;
           break;
         }
@@ -104,6 +86,19 @@ class TimeTracker with ChangeNotifier {
 
       start = end +1 ;
     }
+
+    if (result.isNotEmpty) {
+      LocationModel lastLocation = result.last;
+      DateTime lastRecordedTime = data.last.$2; // Get the last recorded timestamp
+      Duration updatedDuration = checkOutTime!.difference(lastRecordedTime);
+
+      result[result.length - 1] = LocationModel(
+        lastLocation.latitude,
+        lastLocation.longitude,
+        updatedDuration,
+      );
+    }
+
     return result;
 
   }

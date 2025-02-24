@@ -19,7 +19,7 @@ class ChooseWorkerPage extends StatelessWidget {
 class _ChooseWorkerItem extends StatelessWidget {
   final int _index;
 
-  const _ChooseWorkerItem(this._index, {super.key});
+  const _ChooseWorkerItem(this._index);
 
   String get index => _index.toString();
 

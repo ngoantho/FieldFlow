@@ -1,5 +1,5 @@
 import 'package:field_flow/model/day_model.dart';
-import 'package:field_flow/pathMap/pathMap.dart';
+import 'package:field_flow/path_map/path_map.dart';
 import 'package:flutter/material.dart';
 
 class DayDetail extends StatelessWidget {
@@ -11,7 +11,6 @@ class DayDetail extends StatelessWidget {
     return SingleChildScrollView(
         child: Column(
       children: [
-
         Padding(
             padding: EdgeInsets.all(8),
             child: Text(
@@ -25,14 +24,16 @@ class DayDetail extends StatelessWidget {
                       Pathmap(locationList: dayModel.locationList)));
             },
             child: Text("View Path Map")),
-        ...dayModel.locationList.where((location) => location.duration.inMinutes >= 1).map((location) {
+        ...dayModel.locationList
+            .where((location) => location.duration.inMinutes >= 1)
+            .map((location) {
           return Row(
             children: [
               Expanded(
-                  child: Text(
-                      'You spent ${location.duration.inHours}h-${location.duration.inMinutes%60}min-${location.duration.inSeconds%60}sec at Location: ${location.latitude} - ${location.longitude}\n\n\n',
-              textAlign: TextAlign.justify) ,
-                      ) ,
+                child: Text(
+                    'You spent ${location.duration.inHours}h-${location.duration.inMinutes % 60}min-${location.duration.inSeconds % 60}sec at Location: ${location.latitude} - ${location.longitude}\n\n\n',
+                    textAlign: TextAlign.justify),
+              ),
             ],
           );
         }),

@@ -25,13 +25,14 @@ class DayDetail extends StatelessWidget {
                       Pathmap(locationList: dayModel.locationList)));
             },
             child: Text("View Path Map")),
-        ...dayModel.locationList.map((location) {
+        ...dayModel.locationList.where((location) => location.duration.inMinutes >= 1).map((location) {
           return Row(
             children: [
               Expanded(
                   child: Text(
-                      '           You spent ${location.duration} hours at Location: ${location.latitude} - ${location.longitude}\n\n\n',
-                      textAlign: TextAlign.justify)),
+                      'You spent ${location.duration.inHours}h-${location.duration.inMinutes%60}min-${location.duration.inSeconds%60}sec at Location: ${location.latitude} - ${location.longitude}\n\n\n',
+              textAlign: TextAlign.justify) ,
+                      ) ,
             ],
           );
         }),

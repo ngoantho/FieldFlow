@@ -3,14 +3,17 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:ui' as _i7;
+import 'dart:async' as _i7;
+import 'dart:ui' as _i5;
 
-import 'package:field_flow/model/day_model.dart' as _i6;
-import 'package:field_flow/model/location_model.dart' as _i4;
-import 'package:field_flow/model/week_model.dart' as _i3;
+import 'package:field_flow/db/firestore_helper.dart' as _i6;
+import 'package:field_flow/model/day_model.dart' as _i9;
+import 'package:field_flow/model/location_model.dart' as _i3;
+import 'package:field_flow/model/week_model.dart' as _i10;
 import 'package:field_flow/providers/time_tracker.dart' as _i2;
-import 'package:geolocator/geolocator.dart' as _i5;
+import 'package:geolocator/geolocator.dart' as _i4;
 import 'package:mockito/mockito.dart' as _i1;
+import 'package:mockito/src/dummies.dart' as _i8;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -53,35 +56,15 @@ class MockTimeTracker extends _i1.Mock implements _i2.TimeTracker {
   );
 
   @override
-  List<_i3.WeekModel> get weekList =>
-      (super.noSuchMethod(
-            Invocation.getter(#weekList),
-            returnValue: <_i3.WeekModel>[],
-          )
-          as List<_i3.WeekModel>);
-
-  @override
-  set weekList(List<_i3.WeekModel>? _weekList) => super.noSuchMethod(
-    Invocation.setter(#weekList, _weekList),
-    returnValueForMissingStub: null,
-  );
-
-  @override
-  set currentWeek(_i3.WeekModel? _currentWeek) => super.noSuchMethod(
-    Invocation.setter(#currentWeek, _currentWeek),
-    returnValueForMissingStub: null,
-  );
-
-  @override
-  List<_i4.LocationModel> get locationList =>
+  List<_i3.LocationModel> get locationList =>
       (super.noSuchMethod(
             Invocation.getter(#locationList),
-            returnValue: <_i4.LocationModel>[],
+            returnValue: <_i3.LocationModel>[],
           )
-          as List<_i4.LocationModel>);
+          as List<_i3.LocationModel>);
 
   @override
-  set locationList(List<_i4.LocationModel>? _locationList) =>
+  set locationList(List<_i3.LocationModel>? _locationList) =>
       super.noSuchMethod(
         Invocation.setter(#locationList, _locationList),
         returnValueForMissingStub: null,
@@ -110,6 +93,12 @@ class MockTimeTracker extends _i1.Mock implements _i2.TimeTracker {
   );
 
   @override
+  set currentEntryId(String? _currentEntryId) => super.noSuchMethod(
+    Invocation.setter(#currentEntryId, _currentEntryId),
+    returnValueForMissingStub: null,
+  );
+
+  @override
   bool get hasListeners =>
       (super.noSuchMethod(Invocation.getter(#hasListeners), returnValue: false)
           as bool);
@@ -121,34 +110,30 @@ class MockTimeTracker extends _i1.Mock implements _i2.TimeTracker {
   );
 
   @override
-  void checkOut(List<(_i5.Position, DateTime)>? rawPositions) =>
+  void checkOut(List<(_i4.Position, DateTime)>? rawPositions) =>
       super.noSuchMethod(
         Invocation.method(#checkOut, [rawPositions]),
         returnValueForMissingStub: null,
       );
 
   @override
-  dynamic addDayToWeek(_i6.DayModel? day) =>
-      super.noSuchMethod(Invocation.method(#addDayToWeek, [day]));
-
-  @override
-  List<_i4.LocationModel> processRawPosition(
-    List<(_i5.Position, DateTime)>? data,
+  List<_i3.LocationModel> processRawPosition(
+    List<(_i4.Position, DateTime)>? data,
   ) =>
       (super.noSuchMethod(
             Invocation.method(#processRawPosition, [data]),
-            returnValue: <_i4.LocationModel>[],
+            returnValue: <_i3.LocationModel>[],
           )
-          as List<_i4.LocationModel>);
+          as List<_i3.LocationModel>);
 
   @override
-  void addListener(_i7.VoidCallback? listener) => super.noSuchMethod(
+  void addListener(_i5.VoidCallback? listener) => super.noSuchMethod(
     Invocation.method(#addListener, [listener]),
     returnValueForMissingStub: null,
   );
 
   @override
-  void removeListener(_i7.VoidCallback? listener) => super.noSuchMethod(
+  void removeListener(_i5.VoidCallback? listener) => super.noSuchMethod(
     Invocation.method(#removeListener, [listener]),
     returnValueForMissingStub: null,
   );
@@ -164,4 +149,59 @@ class MockTimeTracker extends _i1.Mock implements _i2.TimeTracker {
     Invocation.method(#notifyListeners, []),
     returnValueForMissingStub: null,
   );
+}
+
+/// A class which mocks [FirestoreHelper].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockFirestoreHelper extends _i1.Mock implements _i6.FirestoreHelper {
+  MockFirestoreHelper() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i7.Future<String> saveCheckIn(DateTime? checkInTime) =>
+      (super.noSuchMethod(
+            Invocation.method(#saveCheckIn, [checkInTime]),
+            returnValue: _i7.Future<String>.value(
+              _i8.dummyValue<String>(
+                this,
+                Invocation.method(#saveCheckIn, [checkInTime]),
+              ),
+            ),
+          )
+          as _i7.Future<String>);
+
+  @override
+  _i7.Future<void> saveCheckOut(
+    String? entryId,
+    DateTime? checkOutTime,
+    List<_i3.LocationModel>? locations,
+  ) =>
+      (super.noSuchMethod(
+            Invocation.method(#saveCheckOut, [
+              entryId,
+              checkOutTime,
+              locations,
+            ]),
+            returnValue: _i7.Future<void>.value(),
+            returnValueForMissingStub: _i7.Future<void>.value(),
+          )
+          as _i7.Future<void>);
+
+  @override
+  _i7.Stream<List<_i9.DayModel>> getDaysStream({required String? userId}) =>
+      (super.noSuchMethod(
+            Invocation.method(#getDaysStream, [], {#userId: userId}),
+            returnValue: _i7.Stream<List<_i9.DayModel>>.empty(),
+          )
+          as _i7.Stream<List<_i9.DayModel>>);
+
+  @override
+  _i7.Stream<List<_i10.WeekModel>> getWeeksStream({required String? userId}) =>
+      (super.noSuchMethod(
+            Invocation.method(#getWeeksStream, [], {#userId: userId}),
+            returnValue: _i7.Stream<List<_i10.WeekModel>>.empty(),
+          )
+          as _i7.Stream<List<_i10.WeekModel>>);
 }

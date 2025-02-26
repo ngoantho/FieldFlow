@@ -1,3 +1,4 @@
+import 'package:field_flow/db/firestore_helper.dart';
 import 'package:field_flow/model/check_entry_model.dart';
 import 'package:field_flow/model/day_model.dart';
 import 'package:field_flow/providers/time_tracker.dart';
@@ -5,7 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:mockito/annotations.dart';
 
-@GenerateMocks([TimeTracker])
+@GenerateMocks([TimeTracker, FirestoreHelper])
 void main() {
   group('basic functionality', () {
     test('Check in, wait 5 seconds, check out', () async {
@@ -19,7 +20,9 @@ void main() {
       timeTracker.checkOut([]);
 
       expect(timeTracker.checkOutTime, isNotNull);
-      expect(timeTracker.checkOutTime!.difference(expectedResult).inMilliseconds, lessThanOrEqualTo(1500));
+      expect(
+          timeTracker.checkOutTime!.difference(expectedResult).inMilliseconds,
+          lessThanOrEqualTo(1500));
     });
 
     test('Test Check Out record this moment and process a list of Location',

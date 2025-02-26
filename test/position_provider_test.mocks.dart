@@ -75,6 +75,12 @@ class MockPositionProvider extends _i1.Mock implements _i2.PositionProvider {
   );
 
   @override
+  set logTime(DateTime? _logTime) => super.noSuchMethod(
+    Invocation.setter(#logTime, _logTime),
+    returnValueForMissingStub: null,
+  );
+
+  @override
   _i4.Future<(bool, String?)> get canTrackPosition =>
       (super.noSuchMethod(
             Invocation.getter(#canTrackPosition),
@@ -93,11 +99,8 @@ class MockPositionProvider extends _i1.Mock implements _i2.PositionProvider {
           as bool);
 
   @override
-  void startTracking(
-    void Function()? callback, {
-    Duration? every = const Duration(minutes: 1),
-  }) => super.noSuchMethod(
-    Invocation.method(#startTracking, [callback], {#every: every}),
+  void startTracking(void Function()? callback) => super.noSuchMethod(
+    Invocation.method(#startTracking, [callback]),
     returnValueForMissingStub: null,
   );
 

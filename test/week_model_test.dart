@@ -48,7 +48,7 @@ void main() {
 
     final actual = week.toString();
     final expected =
-        "Week Report: \n02/03/2025 - 02/03/2025 \nTotal Work Hour: 8.0";
+        "Week Report: \n02/03/2025 - 02/09/2025 \nTotal Work Hour: 8.0";
     expect(actual, equals(expected));
   });
 }

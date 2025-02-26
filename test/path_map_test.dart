@@ -33,5 +33,7 @@ void main() {
     await tester.pumpAndSettle(); // Wait for rendering
 
     expect(find.byType(Pathmap), findsOneWidget);
+    expect(find.byType(GoogleMap), findsOneWidget);
+
   });
 }

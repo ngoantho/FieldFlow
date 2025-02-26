@@ -23,53 +23,17 @@ main() {
       );
       timeTracker.checkIn();
 
-      List<(Position, DateTime)> mockData = [
-        (
-          Position(
-            latitude: 47.6097,
-            longitude: -122.3188,
-            timestamp: DateTime.now().subtract(Duration(minutes: 30)),
-            accuracy: 0.0,
-            altitude: 0.0,
-            altitudeAccuracy: 0.0,
-            heading: 0.0,
-            headingAccuracy: 0.0,
-            speed: 0.0,
-            speedAccuracy: 0.0,
-          ),
-          DateTime.now().subtract(Duration(minutes: 30))
-        ),
-        (
-          Position(
-            latitude: 47.6062,
-            longitude: -122.3321,
-            timestamp: DateTime.now().subtract(Duration(minutes: 20)),
-            accuracy: 0.0,
-            altitude: 0.0,
-            altitudeAccuracy: 0.0,
-            heading: 0.0,
-            headingAccuracy: 0.0,
-            speed: 0.0,
-            speedAccuracy: 0.0,
-          ),
-          DateTime.now().subtract(Duration(minutes: 20))
-        ),
-        (
-          Position(
-            latitude: 47.6097,
-            longitude: -122.3188, // Slight movement
-            timestamp: DateTime.now().subtract(Duration(minutes: 10)),
-            accuracy: 0.0,
-            altitude: 0.0,
-            altitudeAccuracy: 0.0,
-            heading: 0.0,
-            headingAccuracy: 0.0,
-            speed: 0.0,
-            speedAccuracy: 0.0,
-          ),
-          DateTime.now().subtract(Duration(minutes: 10))
-        ),
-      ];
+      // Create a check entry
+      CheckEntryModel checkEntry = CheckEntryModel(checkInTime, checkOutTime);
+
+      // Create a single location model
+      LocationModel location = LocationModel(47.6062, -122.3321, Duration(hours: 8));
+
+      // Create a day model with one location
+      DayModel day = DayModel(checkEntry, [location]);
+
+      // Create a week model with the single day
+      WeekModel mockWeek = WeekModel([day]);
 
       when(firestoreHelper.saveCheckOut("1", DateTime.now(), []))
           .thenAnswer((realInvocation) => Future.value());

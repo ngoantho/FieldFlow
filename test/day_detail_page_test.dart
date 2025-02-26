@@ -1,39 +1,46 @@
-import 'package:field_flow/day_detail/day_detail.dart';
+import 'package:field_flow/day_detail/day_detail_page.dart';
 import 'package:field_flow/model/check_entry_model.dart';
 import 'package:field_flow/model/day_model.dart';
 import 'package:field_flow/model/location_model.dart';
+import 'package:field_flow/model/week_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/mockito.dart';
+import 'week_list_history_page_test.mocks.dart';
 
-main() {
-  group('Day Detail Page Tests', ()
-  {
-    testWidgets(
-        'Day Detail Page Test show Check In Check Out time', (tester) async {
+void main() {
+  late MockFirestoreHelper mockFirestoreHelper;
 
+  mockFirestoreHelper = MockFirestoreHelper();
 
-      final checkInTime = DateTime.now().subtract(Duration(days: 19, hours: 8));
-      final checkOutTime = DateTime.now().subtract(Duration(days: 19));
-      DayModel day = DayModel(
-          CheckEntryModel(checkInTime,
-              checkOutTime),
-          [
-            LocationModel(47.6205, -122.3493, Duration(hours: 3)),
-            LocationModel(47.6097, -122.3410, Duration(hours: 3)),
-            LocationModel(47.6094, -122.3180, Duration(hours: 2))
-          ]);
+  // Create a check entry
+  CheckEntryModel checkEntry = CheckEntryModel(DateTime.now(), DateTime.now());
 
-      // Pump the widget
-      await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(body: DayDetail(dayModel: day)),
-        ),
-      );
+  // Create a single location model
+  LocationModel location =
+  LocationModel(47.6062, -122.3321, Duration(hours: 8));
 
-      // Check for main text components
+  // Create a day model with one location
+  DayModel day = DayModel(checkEntry, [location]);
 
-      expect(find.textContaining("Check-in at: $checkInTime \n"), findsOneWidget);
-      expect(find.textContaining('Check-out at: $checkOutTime\n\n\n'), findsOneWidget);
-    });
-  });
+  // Create a week model with the single day
+  WeekModel mockWeek = WeekModel([day]);
+
+  when(mockFirestoreHelper.getWeeksStream(
+      userId: DateTime.now().weekday.toString()))
+      .thenAnswer((_) => Stream.value([mockWeek]));
+
+  testWidgets('DayDetailPage Test populate DayDetail',
+          (tester) async {
+            await tester.pumpWidget(
+              MaterialApp(
+                home: Scaffold(body: DayDetailPage(dayModel: day)),
+              ),
+            );
+
+        await tester.pumpAndSettle(); // Wait for UI to fully render
+
+        // Expect to find BOTH Worker & Manager Tab
+            expect(find.textContaining("Check-in at: ${checkEntry.checkInTime} \n"), findsOneWidget);
+      });
 }

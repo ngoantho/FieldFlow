@@ -1,115 +1,69 @@
-import 'package:field_flow/db/firestore_helper.dart';
-import 'package:field_flow/model/check_entry_model.dart';
-import 'package:field_flow/model/day_model.dart';
 import 'package:field_flow/providers/time_tracker.dart';
+import 'package:field_flow/db/firestore_helper.dart';
+import 'package:field_flow/model/location_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:mockito/mockito.dart';
 import 'package:mockito/annotations.dart';
 
 import 'time_tracker_test.mocks.dart';
 
+// Generate mock for FirestoreHelper
 @GenerateMocks([FirestoreHelper])
 void main() {
-  group('basic functionality', () {
-    test('Check in, wait 5 seconds, check out', () async {
-      final firestoreHelper = MockFirestoreHelper();
+  late TimeTracker timeTracker;
+  late MockFirestoreHelper mockFirestoreHelper;
 
-      final timeTracker = TimeTracker(firestoreHelper: firestoreHelper);
-
-      timeTracker.checkIn();
-      expect(timeTracker.checkInTime, isNotNull);
-
-      await Future.delayed(Duration(seconds: 5));
-      final expectedResult = DateTime.now();
-      timeTracker.checkOut([]);
-
-      expect(timeTracker.checkOutTime, isNotNull);
-      expect(
-          timeTracker.checkOutTime!.difference(expectedResult).inMilliseconds,
-          lessThanOrEqualTo(1500));
-    });
-
-    test('Test Check Out record this moment and process a list of Location',
-        () async {
-      final firestoreHelper = MockFirestoreHelper();
-
-      final timeTracker = TimeTracker(firestoreHelper: firestoreHelper);
-      timeTracker.checkIn();
-
-      List<(Position, DateTime)> mockData = [
-        (
-          Position(
-            latitude: 47.6097,
-            longitude: -122.3188,
-            timestamp: DateTime.now().subtract(Duration(minutes: 30)),
-            accuracy: 0.0,
-            altitude: 0.0,
-            altitudeAccuracy: 0.0,
-            heading: 0.0,
-            headingAccuracy: 0.0,
-            speed: 0.0,
-            speedAccuracy: 0.0,
-          ),
-          DateTime.now().subtract(Duration(minutes: 30))
-        ),
-        (
-          Position(
-            latitude: 47.6062,
-            longitude: -122.3321,
-            timestamp: DateTime.now().subtract(Duration(minutes: 20)),
-            accuracy: 0.0,
-            altitude: 0.0,
-            altitudeAccuracy: 0.0,
-            heading: 0.0,
-            headingAccuracy: 0.0,
-            speed: 0.0,
-            speedAccuracy: 0.0,
-          ),
-          DateTime.now().subtract(Duration(minutes: 20))
-        ),
-        (
-          Position(
-            latitude: 47.6097,
-            longitude: -122.3188, // Slight movement
-            timestamp: DateTime.now().subtract(Duration(minutes: 10)),
-            accuracy: 0.0,
-            altitude: 0.0,
-            altitudeAccuracy: 0.0,
-            heading: 0.0,
-            headingAccuracy: 0.0,
-            speed: 0.0,
-            speedAccuracy: 0.0,
-          ),
-          DateTime.now().subtract(Duration(minutes: 10))
-        ),
-      ];
-
-      timeTracker.checkOut(mockData);
-
-      final expectedResult = DateTime.now();
-
-      expect(timeTracker.lastCheckOutTime!.difference(expectedResult).inSeconds,
-          lessThanOrEqualTo(Duration(seconds: 1).inSeconds));
-
-      for (int i = 0; i < timeTracker.locationList.length; i++) {
-        expect(timeTracker.locationList[i].latitude, mockData[i].$1.latitude);
-        expect(timeTracker.locationList[i].longitude, mockData[i].$1.longitude);
-      }
-    });
+  setUp(() {
+    mockFirestoreHelper = MockFirestoreHelper();
+    timeTracker = TimeTracker(firestoreHelper: mockFirestoreHelper);
   });
 
-  test('add day to week', () {
-    final firestoreHelper = MockFirestoreHelper();
+  group('TimeTracker Tests', () {
+    test('Check-in should save to Firestore and update state', () async {
+      DateTime mockCheckInTime = DateTime(2025, 2, 25, 9, 0, 0);
+      when(mockFirestoreHelper.saveCheckIn(any)).thenAnswer((_) async => 'mockEntryId');
 
-    final timeTracker = TimeTracker(firestoreHelper: firestoreHelper);
-    final monday = DateTime(2024, 2, 3);
-    // final nextMonday = DateTime(2024, 2, 10); // 8 days later
+      timeTracker.checkIn();
 
-    final firstDay = DayModel(CheckEntryModel(monday), []);
+      await Future.delayed(Duration.zero);
 
-    // add first day
-    timeTracker.addDayToWeek(firstDay);
-    expect(timeTracker.currentWeek, isNotNull);
-    expect(timeTracker.weekList.length, 1);
+      expect(timeTracker.checkedIn, true);
+      expect(timeTracker.currentEntryId, 'mockEntryId');
+      verify(mockFirestoreHelper.saveCheckIn(any)).called(1);
+    });
+
+    test('Check-out should save to Firestore and update state => checkedOut True and locationList is reset', () async {
+      timeTracker.currentEntryId = 'mockEntryId';
+
+      List<(Position, DateTime)> rawPositions = [
+        (Position(latitude: 47.6062, longitude: -122.3321, timestamp: DateTime(2025, 2, 25, 10, 0, 0), accuracy: 5.0 , altitude: 50.0, altitudeAccuracy: 5.0, heading: 180.0, headingAccuracy: 2.0, speed: 1.5, speedAccuracy: 0.5), DateTime(2025, 2, 25, 10, 0, 0)),
+      ];
+
+      when(mockFirestoreHelper.saveCheckOut(any, any, any)).thenAnswer((_) async {});
+
+      timeTracker.checkOut(rawPositions);
+
+      await Future.delayed(Duration.zero);
+
+      expect(timeTracker.checkedOut, true);
+      expect(timeTracker.locationList.isNotEmpty, false);
+      verify(mockFirestoreHelper.saveCheckOut('mockEntryId', any, any)).called(1);
+    });
+
+    test('Check-out should do nothing if no check-in ID exists', () async {
+      List<(Position, DateTime)> rawPositions = [
+        (Position(latitude: 47.6062, longitude: -122.3321, timestamp: DateTime(2025, 2, 25, 10, 0, 0), accuracy: 5.0 , altitude: 50.0, altitudeAccuracy: 5.0, heading: 180.0, headingAccuracy: 2.0, speed: 1.5, speedAccuracy: 0.5), DateTime(2025, 2, 25, 10, 0, 0)),
+      ];
+
+      timeTracker.currentEntryId = null;
+
+      timeTracker.checkOut(rawPositions);
+
+      await Future.delayed(Duration.zero);
+
+      expect(timeTracker.checkedOut, false);
+      verifyNever(mockFirestoreHelper.saveCheckOut(any, any, any));
+    });
   });
 }

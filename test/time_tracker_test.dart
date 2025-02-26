@@ -6,11 +6,15 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:mockito/annotations.dart';
 
-@GenerateMocks([TimeTracker, FirestoreHelper])
+import 'time_tracker_test.mocks.dart';
+
+@GenerateMocks([FirestoreHelper])
 void main() {
   group('basic functionality', () {
     test('Check in, wait 5 seconds, check out', () async {
-      final timeTracker = TimeTracker();
+      final firestoreHelper = MockFirestoreHelper();
+
+      final timeTracker = TimeTracker(firestoreHelper: firestoreHelper);
 
       timeTracker.checkIn();
       expect(timeTracker.checkInTime, isNotNull);
@@ -27,7 +31,9 @@ void main() {
 
     test('Test Check Out record this moment and process a list of Location',
         () async {
-      final timeTracker = TimeTracker();
+      final firestoreHelper = MockFirestoreHelper();
+
+      final timeTracker = TimeTracker(firestoreHelper: firestoreHelper);
       timeTracker.checkIn();
 
       List<(Position, DateTime)> mockData = [
@@ -93,7 +99,9 @@ void main() {
   });
 
   test('add day to week', () {
-    final timeTracker = TimeTracker();
+    final firestoreHelper = MockFirestoreHelper();
+
+    final timeTracker = TimeTracker(firestoreHelper: firestoreHelper);
     final monday = DateTime(2024, 2, 3);
     // final nextMonday = DateTime(2024, 2, 10); // 8 days later
 

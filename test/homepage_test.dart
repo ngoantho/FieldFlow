@@ -51,11 +51,6 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('Week Report'), findsOneWidget);
     await tester.tap(find.textContaining('Week Report'));
-    //expect(find.text("Manager"), findsOneWidget);
 
-    //expect(find.textContaining('Checked In on'), findsOneWidget);
-    await tester.pumpAndSettle();
-    await tester.pumpAndSettle();
-    //expect(find.text('Check Out'), findsOne);
   });
 }

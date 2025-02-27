@@ -13,7 +13,6 @@ import 'package:field_flow/homepage/checked_in_out_text.dart';
 import 'package:field_flow/main.dart';
 import 'package:field_flow/mixins/build_app_bar.dart';
 import 'package:field_flow/mixins/dialog_confirm.dart';
-import 'package:field_flow/mixins/navigate_mixin.dart';
 import 'package:field_flow/model/check_entry_model.dart';
 import 'package:field_flow/model/day_model.dart';
 import 'package:field_flow/model/location_model.dart';

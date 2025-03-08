@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:field_flow/mixins/build_app_bar.dart';
 import 'package:field_flow/mixins/dialog_confirm.dart';
 import 'package:field_flow/providers/time_tracker.dart';
+import 'package:field_flow/sign_out_btn.dart';
 import 'package:field_flow/week_list/week_list_history_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -53,7 +54,10 @@ class _HomepageState extends State<Homepage>
             body: Center(child: CircularProgressIndicator()));
       }
       return Scaffold(
-          appBar: buildAppBar(title: 'FieldFlow', subtitle: snapshot.data),
+          appBar: buildAppBar(
+              title: 'FieldFlow',
+              subtitle: snapshot.data,
+              actions: [SignOutBtn()]),
           floatingActionButton: ElevatedButton(
               onPressed: () {
                 Navigator.of(context).push(

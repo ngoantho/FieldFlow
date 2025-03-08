@@ -1,4 +1,5 @@
 import 'package:field_flow/homepage.dart';
+import 'package:field_flow/providers/auth_provider.dart';
 import 'package:field_flow/providers/position_provider.dart';
 import 'package:field_flow/providers/time_tracker.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -18,6 +19,10 @@ void main() async {
   runApp(MultiProvider(
     providers: [
       Provider(create: (context) => FirestoreHelper()),
+      Provider(
+        create: (context) => AuthProvider(
+          firestoreHelper: Provider.of<FirestoreHelper>(context, listen: false)),
+      ),
       ChangeNotifierProvider(
         create: (context) => TimeTracker(
             firestoreHelper:

@@ -10,10 +10,9 @@ class UserRoleSelectionPage extends StatelessWidget {
   const UserRoleSelectionPage({super.key, required this.user});
 
   _setRole(BuildContext context, String role) async {
-    await FirebaseFirestore.instance
-        .collection('users')
-        .doc(user.uid)
-        .set({'role': role}, SetOptions(merge: true));
+    await FirebaseFirestore.instance.collection('users').doc(user.uid).set(
+        {'role': role, 'email': user.email, 'name': user.displayName},
+        SetOptions(merge: true));
     Navigator.pushReplacement(
         context, MaterialPageRoute(builder: (_) => Homepage()));
   }

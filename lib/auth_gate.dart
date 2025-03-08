@@ -15,7 +15,9 @@ class AuthGate extends StatelessWidget {
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return CircularProgressIndicator();
+            return Scaffold(
+              body: CircularProgressIndicator(),
+            );
           }
 
           final user = snapshot.data;
@@ -30,7 +32,9 @@ class AuthGate extends StatelessWidget {
                   .get(),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
-                  return CircularProgressIndicator();
+                  return Scaffold(
+                    body: CircularProgressIndicator(),
+                  );
                 }
 
                 final userDoc = snapshot.data!;

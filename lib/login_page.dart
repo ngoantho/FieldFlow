@@ -1,4 +1,5 @@
 import 'package:field_flow/providers/auth_provider.dart';
+import 'package:field_flow/role_selection.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -21,7 +22,9 @@ class LoginPage extends StatelessWidget {
                 if (user != null) {
                   Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (context) => UserRoleSelectionPage(user: user)),
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            UserRoleSelectionPage(user: user)),
                   );
                 }
               },

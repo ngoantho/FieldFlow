@@ -1,4 +1,4 @@
-import 'package:field_flow/homepage.dart';
+import 'package:field_flow/auth_gate.dart';
 import 'package:field_flow/providers/auth_provider.dart';
 import 'package:field_flow/providers/position_provider.dart';
 import 'package:field_flow/providers/time_tracker.dart';
@@ -21,7 +21,8 @@ void main() async {
       Provider(create: (context) => FirestoreHelper()),
       Provider(
         create: (context) => AuthProvider(
-          firestoreHelper: Provider.of<FirestoreHelper>(context, listen: false)),
+            firestoreHelper:
+                Provider.of<FirestoreHelper>(context, listen: false)),
       ),
       ChangeNotifierProvider(
         create: (context) => TimeTracker(
@@ -76,7 +77,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,
-      home: Homepage(),
+      home: AuthGate(),
     );
   }
 }

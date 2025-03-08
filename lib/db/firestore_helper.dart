@@ -104,4 +104,16 @@ class FirestoreHelper {
       return groupedByWeek.values.map((days) => WeekModel(days)).toList();
     });
   }
+
+  Future<DocumentSnapshot> getUser(String userId) async {
+    return _firestore.collection('users').doc(userId).get();
+  }
+
+  Future<void> createUser(String userId, String? name, String? email) async {
+    await _firestore.collection('users').doc(userId).set({
+      'name': name ?? 'Unknown',
+      'email': email,
+      'role': null,
+    });
+  }
 }

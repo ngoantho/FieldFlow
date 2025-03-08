@@ -1,7 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class UserRoleSelectionPage extends StatelessWidget {
-  const UserRoleSelectionPage({super.key});
+  final User user;
+
+  const UserRoleSelectionPage({super.key, required this.user});
 
   @override
   Widget build(BuildContext context) {

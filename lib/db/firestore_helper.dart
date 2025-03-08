@@ -5,6 +5,7 @@ import 'package:field_flow/model/location_model.dart';
 import 'package:field_flow/model/week_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:intl/intl.dart';
 
 class FirestoreHelper {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -114,5 +115,41 @@ class FirestoreHelper {
       'email': email,
       'role': null,
     });
+  }
+
+  /// Fetch all users from Firestore
+  Future<Map<String, String>> getUsers() async {
+    QuerySnapshot usersSnapshot = await _firestore.collection('users').get();
+    return {for (var doc in usersSnapshot.docs) doc.id: doc['name'] ?? 'Unknown'};
+  }
+
+  /// Fetch work hour report data for selected users within a date range
+  Future<List<Map<String, dynamic>>> getWorkHourReport(
+      {required List<String> userIds, required DateTime startDate, required DateTime endDate}) async {
+    if (userIds.isEmpty) return [];
+
+    QuerySnapshot checkEntriesSnapshot = await _firestore
+        .collection('check_entries')
+        .where('userId', whereIn: userIds)
+        .where('checkInTime', isGreaterThanOrEqualTo: startDate.toIso8601String())
+        .where('checkInTime', isLessThanOrEqualTo: endDate.toIso8601String())
+        .get();
+
+    List<Map<String, dynamic>> report = [];
+    for (var doc in checkEntriesSnapshot.docs) {
+      var data = doc.data() as Map<String, dynamic>;
+      String userId = data['userId'];
+      DateTime checkInTime = DateTime.parse(data['checkInTime']);
+      DateTime? checkOutTime =
+      data['checkOutTime'] != null ? DateTime.parse(data['checkOutTime']) : null;
+      int workHours = checkOutTime != null ? checkOutTime.difference(checkInTime).inHours : 0;
+
+      report.add({
+        'day': DateFormat('EEEE').format(checkInTime),
+        'userId': userId,
+        'workHours': workHours,
+      });
+    }
+    return report;
   }
 }

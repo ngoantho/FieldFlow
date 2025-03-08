@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:field_flow/week_list/week_list.dart';
 import 'package:flutter/material.dart';
 
@@ -6,22 +7,30 @@ class ChooseWorkerPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemBuilder: (context, index) => Padding(
-        padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-        child: _ChooseWorkerItem(index + 1),
-      ),
-      itemCount: 7,
-    );
+    return FutureBuilder(future: (() async {
+      return FirebaseFirestore.instance.collection('users').get();
+    })(), builder: (context, snapshot) {
+      if (!snapshot.hasData) {
+        return Center(child: CircularProgressIndicator());
+      }
+
+      final users =
+          snapshot.data!.docs.map((e) => {...e.data(), 'id': e.id}).toList();
+
+      return ListView.builder(
+        itemBuilder: (context, index) => Padding(
+            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+            child: _ChooseWorkerItem(users[index])),
+        itemCount: users.length,
+      );
+    });
   }
 }
 
 class _ChooseWorkerItem extends StatelessWidget {
-  final int _index;
+  final Map<String, dynamic> user;
 
-  const _ChooseWorkerItem(this._index);
-
-  String get index => _index.toString();
+  const _ChooseWorkerItem(this.user);
 
   @override
   Widget build(BuildContext context) {
@@ -30,12 +39,12 @@ class _ChooseWorkerItem extends StatelessWidget {
           Navigator.of(context).push(MaterialPageRoute(builder: (context) {
             return Scaffold(
                 appBar: AppBar(
-                  title: Text('Worker (ID: $index)'),
+                  title: Text(user['name']),
                   centerTitle: true,
                 ),
-                body: WeekList(id: index));
+                body: WeekList(id: user['id']));
           }));
         },
-        child: Text(index));
+        child: Text(user['name']));
   }
 }

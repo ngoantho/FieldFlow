@@ -3,22 +3,21 @@ import 'package:field_flow/model/check_entry_model.dart';
 import 'package:field_flow/model/day_model.dart';
 import 'package:field_flow/model/location_model.dart';
 import 'package:field_flow/model/week_model.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 
 class FirestoreHelper {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   /// Save a check-in entry
   Future<String> saveCheckIn(DateTime checkInTime) async {
-    // ******** TESTING - TO BE REPLACED BY REAL ID ********
-    String userId = DateTime.now().weekday.toString();
-    String role;
-    if (DateTime.now().weekday.isEven) {
-      role = "Manager";
-    } else {
-      role = "Field Worker";
-    }
-    //********** REPLACE THE ABOVE PART *************
+
+    User? user = _auth.currentUser;
+    String userId = user!.uid;
+    DocumentSnapshot userDoc = await _firestore.collection('users').doc(userId).get();
+    String role = userDoc['role'];
+
     DocumentReference docRef = _firestore.collection('check_entries').doc();
     await docRef.set({
       'userId': userId,

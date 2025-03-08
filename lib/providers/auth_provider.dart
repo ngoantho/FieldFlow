@@ -10,10 +10,7 @@ class AuthProvider {
       : _firestoreHelper = firestoreHelper;
 
   Future<User?> signInWithGoogle() async {
-    final GoogleSignInAccount? googleUser = await GoogleSignIn(
-            serverClientId:
-                "995776545775-3uiro9i0ur67si8onnfagjbohr4lf9tr.apps.googleusercontent.com")
-        .signIn();
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
     if (googleUser == null) return null;
 
     final GoogleSignInAuthentication googleAuth =

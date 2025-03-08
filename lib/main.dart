@@ -9,13 +9,16 @@ import 'package:provider/provider.dart';
 
 import 'db/firestore_helper.dart';
 import 'firebase_options.dart';
+import 'package:firebase_app_check/firebase_app_check.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-
+  await FirebaseAppCheck.instance.activate(
+    androidProvider: AndroidProvider.debug,  // ✅ Allows any device
+  );
   runApp(MultiProvider(
     providers: [
       Provider(create: (context) => FirestoreHelper()),

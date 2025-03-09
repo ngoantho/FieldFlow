@@ -15,6 +15,25 @@ void main() {
 
   setUp(() {
     mockFirestoreHelper = MockFirestoreHelper();
+
+    when(mockFirestoreHelper.getUsers()).thenAnswer((_) async => {
+      'user1': 'Q',
+      'user2': 'Anthony',
+    });
+
+    when(mockFirestoreHelper.fetchReportData(
+      userIds: anyNamed('userIds'),
+      startDate: anyNamed('startDate'),
+      endDate: anyNamed('endDate'),
+    )).thenAnswer((_) async => {
+      'Monday (03-04-2025)': [
+        {'userId': 'user1', 'checkInTime': '2025-03-04T08:00:00.000Z', 'workHours': 8},
+        {'userId': 'user2', 'checkInTime': '2025-03-04T09:00:00.000Z', 'workHours': 7},
+      ],
+      'Tuesday (03-05-2025)': [
+        {'userId': 'user1', 'checkInTime': '2025-03-05T08:00:00.000Z', 'workHours': 6},
+      ],
+    });
   });
 
   testWidgets('ReportChooseParameterPage finds date-users, then hit Print Report', (tester) async {
@@ -28,7 +47,7 @@ void main() {
         providers: [
           Provider<FirestoreHelper>.value(value: mockFirestoreHelper),
         ],
-        child: MaterialApp(home: ReportChooseParameterPage()),
+        child: MaterialApp(home: ReportChooseParameterPage(),),
       ),
     );
     await tester.pumpAndSettle();
@@ -58,10 +77,9 @@ void main() {
     await tester.pumpAndSettle();
 
     await tester.tap(find.text('Save'));
+    await tester.pumpAndSettle();
     await tester.tap(find.text('Print Report'));
     await tester.pumpAndSettle();
-    
-
   });
 
   testWidgets('ReportChooseParameterPage print error when hitting Print Report without choosing date/users', (tester) async {

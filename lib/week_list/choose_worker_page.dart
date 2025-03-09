@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:field_flow/week_list/week_list.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../db/firestore_helper.dart';
 import '../report/report_choose_parameter_page.dart';
 
 class ChooseWorkerPage extends StatelessWidget {
@@ -9,6 +11,8 @@ class ChooseWorkerPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final firestoreHelper = Provider.of<FirestoreHelper>(context, listen: false);
+
     return Scaffold(
         floatingActionButton: ElevatedButton(
             onPressed: () {
@@ -16,23 +20,20 @@ class ChooseWorkerPage extends StatelessWidget {
                   builder: (context) => ReportChooseParameterPage()));
             },
             child: Text("Make Report")),
-        body: FutureBuilder(future: (() async {
-          return FirebaseFirestore.instance.collection('users').get();
-        })(), builder: (context, snapshot) {
+        body: FutureBuilder(future: firestoreHelper.fetchUsers(), builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return Center(child: CircularProgressIndicator());
           }
 
-          final users = snapshot.data!.docs
-              .map((e) => {...e.data(), 'id': e.id})
-              .toList();
+          final users = snapshot.data;
 
           return ListView.builder(
+            itemCount: users!.length,
             itemBuilder: (context, index) => Padding(
                 padding:
                     const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                 child: _ChooseWorkerItem(users[index])),
-            itemCount: users.length,
+
           );
         }));
   }

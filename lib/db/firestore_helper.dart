@@ -11,6 +11,16 @@ class FirestoreHelper {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
+  Future<List<Map<String, dynamic>>> fetchUsers() async {
+    QuerySnapshot usersSnapshot = await _firestore.collection('users').get();
+    return usersSnapshot.docs.map((doc) {
+      return {
+        'id': doc.id,
+        'name': doc['name'] ?? 'Unknown',
+      };
+    }).toList();
+  }
+
   /// Save a check-in entry
   Future<String> saveCheckIn(DateTime checkInTime) async {
     User? user = _auth.currentUser;

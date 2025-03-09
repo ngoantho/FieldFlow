@@ -54,6 +54,16 @@ class MockFirestoreHelper extends _i1.Mock implements _i3.FirestoreHelper {
   }
 
   @override
+  _i4.Future<List<Map<String, dynamic>>> fetchUsers() =>
+      (super.noSuchMethod(
+            Invocation.method(#fetchUsers, []),
+            returnValue: _i4.Future<List<Map<String, dynamic>>>.value(
+              <Map<String, dynamic>>[],
+            ),
+          )
+          as _i4.Future<List<Map<String, dynamic>>>);
+
+  @override
   _i4.Future<String> saveCheckIn(DateTime? checkInTime) =>
       (super.noSuchMethod(
             Invocation.method(#saveCheckIn, [checkInTime]),

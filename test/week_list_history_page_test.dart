@@ -2,6 +2,7 @@ import 'package:field_flow/model/check_entry_model.dart';
 import 'package:field_flow/model/day_model.dart';
 import 'package:field_flow/model/location_model.dart';
 import 'package:field_flow/model/week_model.dart';
+import 'package:field_flow/week_list/choose_worker_page.dart';
 import 'package:field_flow/week_list/week_list.dart';
 import 'package:field_flow/week_list/week_list_history_page.dart';
 import 'package:field_flow/db/firestore_helper.dart';
@@ -58,4 +59,45 @@ void main() {
     expect(find.text('Week Report'), findsOneWidget);
     expect(find.byType(WeekList), findsOneWidget);
   });
+
+  testWidgets('WeekListHistoryPage displays ChooseWorkerPage for Manager',
+          (tester) async {
+        const testUserId = 'managerUserId';
+        const testUserRole = 'Manager';
+
+        // Mock FirestoreHelper to return fake users
+        when(mockFirestoreHelper.fetchUsers()).thenAnswer((_) async => [
+          {'id': 'worker_1', 'name': 'Test Worker'},
+          {'id': 'worker_2', 'name': 'Another Worker'},
+        ]);
+
+        await tester.pumpWidget(
+          MultiProvider(
+            providers: [
+              Provider<FirestoreHelper>.value(value: mockFirestoreHelper),
+            ],
+            child: MaterialApp(
+              home: WeekListHistoryPage(
+                userId: testUserId,
+                userRole: testUserRole,
+              ),
+            ),
+          ),
+        );
+
+        await tester.pumpAndSettle(); // Wait for UI to fully render
+
+        // Expect to see "Week Report" title in the AppBar
+        expect(find.text('Week Report'), findsOneWidget);
+
+        // Ensure "Choose Worker" page is displayed
+        expect(find.byType(ChooseWorkerPage), findsOneWidget);
+
+        // Ensure mock users appear in the list
+        expect(find.text('Test Worker'), findsOneWidget);
+        expect(find.text('Another Worker'), findsOneWidget);
+
+        // Ensure "Make Report" button exists
+        expect(find.text("Make Report"), findsOneWidget);
+      });
 }

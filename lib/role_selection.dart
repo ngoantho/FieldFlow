@@ -14,7 +14,11 @@ class UserRoleSelectionPage extends StatelessWidget {
         {'role': role, 'email': user.email, 'name': user.displayName},
         SetOptions(merge: true));
     Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (_) => Homepage()));
+        context, MaterialPageRoute(builder: (_) => Homepage(
+        userId: user.uid,
+        userRole: role,
+        userName: user.displayName!,
+    )));
   }
 
   @override

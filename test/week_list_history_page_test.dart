@@ -2,6 +2,7 @@ import 'package:field_flow/model/check_entry_model.dart';
 import 'package:field_flow/model/day_model.dart';
 import 'package:field_flow/model/location_model.dart';
 import 'package:field_flow/model/week_model.dart';
+import 'package:field_flow/week_list/week_list.dart';
 import 'package:field_flow/week_list/week_list_history_page.dart';
 import 'package:field_flow/db/firestore_helper.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +15,8 @@ import 'week_list_history_page_test.mocks.dart';
 // Generate a mock FirestoreHelper
 @GenerateMocks([FirestoreHelper])
 void main() {
+  const testUserId = 'testUserId';
+  const testUserRole = 'Field Worker';
   late MockFirestoreHelper mockFirestoreHelper;
 
   mockFirestoreHelper = MockFirestoreHelper();
@@ -32,10 +35,10 @@ void main() {
   WeekModel mockWeek = WeekModel([day]);
 
   when(mockFirestoreHelper.getWeeksStream(
-          userId: DateTime.now().weekday.toString()))
+          userId: testUserId))
       .thenAnswer((_) => Stream.value([mockWeek]));
 
-  testWidgets('WeekList Page Test shows Manager and Worker Tabs',
+  testWidgets('WeekListHistory Page Test (Field Worker) shows WeekList',
       (tester) async {
     await tester.pumpWidget(
       MultiProvider(
@@ -43,18 +46,16 @@ void main() {
           Provider<FirestoreHelper>.value(value: mockFirestoreHelper),
         ],
         child: MaterialApp(
-          home: DefaultTabController(
-            length: 2,
-            child: WeekListHistoryPage(),
+          home: WeekListHistoryPage(
+            userId: testUserId,
+            userRole: testUserRole,
           ),
         ),
       ),
     );
 
     await tester.pumpAndSettle(); // Wait for UI to fully render
-
-    // Expect to find BOTH Worker & Manager Tabs
-    expect(find.textContaining("Worker (ID:"), findsOneWidget);
-    expect(find.text("Manager"), findsOneWidget);
+    expect(find.text('Week Report'), findsOneWidget);
+    expect(find.byType(WeekList), findsOneWidget);
   });
 }

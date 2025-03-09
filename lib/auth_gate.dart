@@ -42,7 +42,11 @@ class AuthGate extends StatelessWidget {
                   return UserRoleSelectionPage(user: user);
                 }
 
-                return Homepage();
+                return Homepage(
+                    userId: user.uid,
+                    userRole: userDoc['role'],
+                    userName: userDoc['name'] ?? "Unknown"
+                );
               });
         });
   }

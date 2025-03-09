@@ -11,10 +11,11 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:provider/provider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'homepage_test.mocks.dart';
 
-@GenerateMocks([FirestoreHelper])
+@GenerateMocks([FirestoreHelper, DocumentSnapshot])
 void main() {
   testWidgets('Homepage shows check in/out button', (tester) async {
     final firestoreHelper = MockFirestoreHelper();
@@ -34,8 +35,7 @@ void main() {
     // Create a week model with the single day
     WeekModel mockWeek = WeekModel([day]);
 
-    when(firestoreHelper.getWeeksStream(
-        userId: DateTime.now().weekday.toString()))
+    when(firestoreHelper.getWeeksStream(userId: anyNamed('userId')))
         .thenAnswer((_) => Stream.value([mockWeek]));
 
     await tester.pumpWidget(MultiProvider(providers: [
@@ -43,9 +43,16 @@ void main() {
       ChangeNotifierProvider<PositionProvider>.value(value: positionProvider),
       Provider<FirestoreHelper>.value(value: firestoreHelper),
 
-    ], child: MaterialApp(home: Homepage())));
+    ], child: MaterialApp(home: Homepage(
+      userId: 'testUserId',
+      userRole: 'Field Worker',
+      userName: 'Test User',
+    ))));
 
-    expect(find.text('Check In'), findsOne);
+    await tester.pumpAndSettle(); // Allow time for async tasks
+
+    expect(find.byType(CircularProgressIndicator), findsNothing);
+    expect(find.textContaining('Check In'), findsOne);
 
     await tester.tap(find.text('Check In'));
     await tester.pumpAndSettle();

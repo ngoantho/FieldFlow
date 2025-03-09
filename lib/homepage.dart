@@ -14,8 +14,14 @@ import 'homepage/checked_in_out_text.dart';
 
 class Homepage extends StatefulWidget {
   final Duration? checkInAgain;
+  final String userId;
+  final String userRole;
+  final String userName;
 
-  const Homepage({this.checkInAgain, super.key});
+  const Homepage({required this.userId,
+    required this.userRole,
+    required this.userName,
+    this.checkInAgain, super.key});
 
   @override
   State<Homepage> createState() => _HomepageState();
@@ -40,28 +46,18 @@ class _HomepageState extends State<Homepage>
   Widget build(BuildContext context) {
     final timeTracker = context.watch<TimeTracker>();
 
-    return FutureBuilder(future: (() async {
-      User? user = FirebaseAuth.instance.currentUser;
-      final userDoc = await FirebaseFirestore.instance
-          .collection('users')
-          .doc(user!.uid)
-          .get();
-      return userDoc['role'];
-    })(), builder: (context, snapshot) {
-      if (!snapshot.hasData) {
-        return Scaffold(
-            appBar: buildAppBar(title: 'FieldFlow'),
-            body: Center(child: CircularProgressIndicator()));
-      }
       return Scaffold(
           appBar: buildAppBar(
               title: 'FieldFlow',
-              subtitle: snapshot.data,
+              subtitle: widget.userRole,
               actions: [SignOutBtn()]),
           floatingActionButton: ElevatedButton(
               onPressed: () {
                 Navigator.of(context).push(
-                    MaterialPageRoute(builder: (_) => WeekListHistoryPage()));
+                    MaterialPageRoute(builder: (_) => WeekListHistoryPage(
+                      userId: widget.userId,
+                      userRole: widget.userRole,
+                    )));
               },
               child: Text('Week Report')),
           body: Center(
@@ -73,6 +69,5 @@ class _HomepageState extends State<Homepage>
               CheckedInOutText(),
             ],
           )));
-    });
   }
 }

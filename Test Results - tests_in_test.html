@@ -572,9 +572,9 @@ jQuery.cookie = function(name, value, options) {
     <body>
         <div id="container">
             <div id="header">
-                <div class="time" xmlns="">4.86 s</div>
+                <div class="time" xmlns="">4.15 s</div>
                 <h1>
-                    tests in test: <strong><span class="total" xmlns="http://www.w3.org/1999/xhtml">15 total, </span><span class="failed">1 failed, </span><span class="passed">14 passed</span></strong>
+                    tests in test: <strong><span class="total" xmlns="http://www.w3.org/1999/xhtml">22 total, </span><span class="failed">2 failed, </span><span class="passed">20 passed</span></strong>
                 </h1>
                 <div id="treecontrol">
                     <ul>
@@ -591,39 +591,99 @@ jQuery.cookie = function(name, value, options) {
             </div>
             <div id="content">
                 <ul id="tree">
-                    <li class="level test failed open" xmlns="">
+                    <li xmlns="" class="level top open">
                         <span><em class="time">
-                                <div class="time">3.88 s</div>
-                            </em><em class="status">failed</em>loading week_list_history_page_test.dart</span>
+                                <div class="time">602 ms</div>
+                            </em>day_detail_test.dart</span>
                         <ul>
-                            <li class="text">
-                                <span class="stderr">Error: the Dart compiler exited unexpectedly.<br/>package:flutter_tools/src/base/common.dart 10:3  throwToolExit<br/>package:flutter_tools/src/compile.dart 893:9     DefaultResidentCompiler._compile.<fn><br/>dart:async/zone.dart 1422:47                     _rootRunUnary<br/>dart:async/zone.dart 1324:19                     _CustomZone.runUnary<br/>dart:async/future_impl.dart 902:45               Future._propagateToListeners.handleValueCallback<br/>dart:async/future_impl.dart 931:13               Future._propagateToListeners<br/>dart:async/future_impl.dart 827:9                Future._propagateToListeners<br/>dart:async/future_impl.dart 707:5                Future._completeWithValue<br/>dart:async/future_impl.dart 777:7                Future._asyncCompleteWithValue.<fn><br/>dart:async/zone.dart 1414:13                     _rootRun<br/>dart:async/zone.dart 1317:19                     _CustomZone.run<br/>dart:async/zone.dart 1225:7                      _CustomZone.runGuarded<br/>dart:async/zone.dart 1265:23                     _CustomZone.bindCallbackGuarded.<fn><br/>dart:async/schedule_microtask.dart 40:21         _microtaskLoop<br/>dart:async/schedule_microtask.dart 49:5          _startMicrotaskLoop<br/>dart:isolate-patch/isolate_patch.dart 118:13     _runPendingImmediateCallback<br/>dart:isolate-patch/isolate_patch.dart 185:5      _RawReceivePort._handleMessage<br/>Failed to load "/Users/quangtran0603/Developer/FieldFlow/test/week_list_history_page_test.dart": Compilation failed for testPath=/Users/quangtran0603/Developer/FieldFlow/test/week_list_history_page_test.dart<br/></span>
+                            <li class="level suite open">
+                                <span><em class="time">
+                                        <div class="time">602 ms</div>
+                                    </em>Day Detail Page Tests</span>
+                                <ul>
+                                    <li class="level test">
+                                        <span><em class="time">
+                                                <div class="time">602 ms</div>
+                                            </em><em class="status">passed</em>Day Detail Page Test show Check In Check Out time</span>
+                                    </li>
+                                </ul>
                             </li>
                         </ul>
                     </li>
                     <li class="level top open">
                         <span><em class="time">
-                                <div class="time">67 ms</div>
+                                <div class="time">416 ms</div>
+                            </em>day_list_test.dart</span>
+                        <ul>
+                            <li class="level suite open">
+                                <span><em class="time">
+                                        <div class="time">416 ms</div>
+                                    </em>Day List tests</span>
+                                <ul>
+                                    <li class="level test">
+                                        <span><em class="time">
+                                                <div class="time">416 ms</div>
+                                            </em><em class="status">passed</em>Day list for current week</span>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="level top failed open">
+                        <span><em class="time">
+                                <div class="time">425 ms</div>
+                            </em>week_list_history_page_test.dart</span>
+                        <ul>
+                            <li class="level test failed open">
+                                <span><em class="time">
+                                        <div class="time">425 ms</div>
+                                    </em><em class="status">failed</em>WeekList Page Test shows Manager and Worker Tabs</span>
+                                <ul>
+                                    <li class="text">
+                                        <span class="stdout">══╡ EXCEPTION CAUGHT BY WIDGETS LIBRARY ╞═══════════════════════════════════════════════════════════<br/>The following FirebaseException was thrown building FutureBuilder<String>(dirty, state:<br/>_FutureBuilderState<String>#c1abf):<br/>[core/no-app] No Firebase App '[DEFAULT]' has been created - call Firebase.initializeApp()<br/>The relevant error-causing widget was:<br/>  FutureBuilder<String><br/>  FutureBuilder:file:///Users/quangtran0603/Developer/FieldFlow/lib/week_list/week_list_history_page.dart:23:12<br/>When the exception was thrown, this was the stack:<br/>#0      MethodChannelFirebase.app (package:firebase_core_platform_interface/src/method_channel/method_channel_firebase.dart:195:5)<br/>#1      Firebase.app (package:firebase_core/src/firebase.dart:79:41)<br/>#2      FirebaseAuth.instance (package:firebase_auth/src/firebase_auth.dart:38:47)<br/>#3      WeekListHistoryPage.build.<anonymous closure> (package:field_flow/week_list/week_list_history_page.dart:34:38)<br/>#4      _FutureBuilderState.build (package:flutter/src/widgets/async.dart:626:55)<br/>#5      StatefulElement.build (package:flutter/src/widgets/framework.dart:5743:27)<br/>#6      ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5631:15)<br/>#7      StatefulElement.performRebuild (package:flutter/src/widgets/framework.dart:5794:11)<br/>#8      Element.rebuild (package:flutter/src/widgets/framework.dart:5347:7)<br/>#9      ComponentElement._firstBuild (package:flutter/src/widgets/framework.dart:5613:5)<br/>#10     StatefulElement._firstBuild (package:flutter/src/widgets/framework.dart:5785:11)<br/>#11     ComponentElement.mount (package:flutter/src/widgets/framework.dart:5607:5)<br/>...     Normal element mounting (248 frames)<br/>#259    Element.inflateWidget (package:flutter/src/widgets/framework.dart:4480:16)<br/>#260    MultiChildRenderObjectElement.inflateWidget (package:flutter/src/widgets/framework.dart:7049:36)<br/>#261    MultiChildRenderObjectElement.mount (package:flutter/src/widgets/framework.dart:7061:32)<br/>...     Normal element mounting (463 frames)<br/>#724    _InheritedProviderScopeElement.mount (package:provider/src/inherited_provider.dart:411:11)<br/>...     Normal element mounting (7 frames)<br/>#731    SingleChildWidgetElementMixin.mount (package:nested/nested.dart:222:11)<br/>...     Normal element mounting (7 frames)<br/>#738    _NestedHookElement.mount (package:nested/nested.dart:187:11)<br/>...     Normal element mounting (7 frames)<br/>#745    SingleChildWidgetElementMixin.mount (package:nested/nested.dart:222:11)<br/>#746    Element.inflateWidget (package:flutter/src/widgets/framework.dart:4480:16)<br/>#747    Element.updateChild (package:flutter/src/widgets/framework.dart:3957:20)<br/>#748    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5656:16)<br/>#749    Element.rebuild (package:flutter/src/widgets/framework.dart:5347:7)<br/>#750    ProxyElement.update (package:flutter/src/widgets/framework.dart:5960:5)<br/>#751    _InheritedNotifierElement.update (package:flutter/src/widgets/inherited_notifier.dart:112:11)<br/>#752    Element.updateChild (package:flutter/src/widgets/framework.dart:3941:15)<br/>#753    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5656:16)<br/>#754    StatefulElement.performRebuild (package:flutter/src/widgets/framework.dart:5794:11)<br/>#755    Element.rebuild (package:flutter/src/widgets/framework.dart:5347:7)<br/>#756    StatefulElement.update (package:flutter/src/widgets/framework.dart:5817:5)<br/>#757    Element.updateChild (package:flutter/src/widgets/framework.dart:3941:15)<br/>#758    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5656:16)<br/>#759    Element.rebuild (package:flutter/src/widgets/framework.dart:5347:7)<br/>#760    ProxyElement.update (package:flutter/src/widgets/framework.dart:5960:5)<br/>#761    _InheritedNotifierElement.update (package:flutter/src/widgets/inherited_notifier.dart:112:11)<br/>#762    Element.updateChild (package:flutter/src/widgets/framework.dart:3941:15)<br/>#763    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5656:16)<br/>#764    StatefulElement.performRebuild (package:flutter/src/widgets/framework.dart:5794:11)<br/>#765    Element.rebuild (package:flutter/src/widgets/framework.dart:5347:7)<br/>#766    StatefulElement.update (package:flutter/src/widgets/framework.dart:5817:5)<br/>#767    Element.updateChild (package:flutter/src/widgets/framework.dart:3941:15)<br/>#768    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5656:16)<br/>#769    StatefulElement.performRebuild (package:flutter/src/widgets/framework.dart:5794:11)<br/>#770    Element.rebuild (package:flutter/src/widgets/framework.dart:5347:7)<br/>#771    StatefulElement.update (package:flutter/src/widgets/framework.dart:5817:5)<br/>#772    Element.updateChild (package:flutter/src/widgets/framework.dart:3941:15)<br/>#773    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5656:16)<br/>#774    Element.rebuild (package:flutter/src/widgets/framework.dart:5347:7)<br/>#775    ProxyElement.update (package:flutter/src/widgets/framework.dart:5960:5)<br/>#776    Element.updateChild (package:flutter/src/widgets/framework.dart:3941:15)<br/>#777    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5656:16)<br/>#778    StatefulElement.performRebuild (package:flutter/src/widgets/framework.dart:5794:11)<br/>#779    Element.rebuild (package:flutter/src/widgets/framework.dart:5347:7)<br/>#780    StatefulElement.update (package:flutter/src/widgets/framework.dart:5817:5)<br/>#781    Element.updateChild (package:flutter/src/widgets/framework.dart:3941:15)<br/>#782    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5656:16)<br/>#783    Element.rebuild (package:flutter/src/widgets/framework.dart:5347:7)<br/>#784    ProxyElement.update (package:flutter/src/widgets/framework.dart:5960:5)<br/>#785    Element.updateChild (package:flutter/src/widgets/framework.dart:3941:15)<br/>#786    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5656:16)<br/>#787    Element.rebuild (package:flutter/src/widgets/framework.dart:5347:7)<br/>#788    ProxyElement.update (package:flutter/src/widgets/framework.dart:5960:5)<br/>#789    Element.updateChild (package:flutter/src/widgets/framework.dart:3941:15)<br/>#790    _RawViewElement._updateChild (package:flutter/src/widgets/view.dart:465:16)<br/>#791    _RawViewElement.update (package:flutter/src/widgets/view.dart:552:5)<br/>#792    Element.updateChild (package:flutter/src/widgets/framework.dart:3941:15)<br/>#793    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5656:16)<br/>#794    Element.rebuild (package:flutter/src/widgets/framework.dart:5347:7)<br/>#795    StatelessElement.update (package:flutter/src/widgets/framework.dart:5707:5)<br/>#796    Element.updateChild (package:flutter/src/widgets/framework.dart:3941:15)<br/>#797    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5656:16)<br/>#798    StatefulElement.performRebuild (package:flutter/src/widgets/framework.dart:5794:11)<br/>#799    Element.rebuild (package:flutter/src/widgets/framework.dart:5347:7)<br/>#800    StatefulElement.update (package:flutter/src/widgets/framework.dart:5817:5)<br/>#801    Element.updateChild (package:flutter/src/widgets/framework.dart:3941:15)<br/>#802    RootElement._rebuild (package:flutter/src/widgets/binding.dart:1636:16)<br/>#803    RootElement.update (package:flutter/src/widgets/binding.dart:1614:5)<br/>#804    RootElement.performRebuild (package:flutter/src/widgets/binding.dart:1628:7)<br/>#805    Element.rebuild (package:flutter/src/widgets/framework.dart:5347:7)<br/>#806    BuildScope._tryRebuild (package:flutter/src/widgets/framework.dart:2694:15)<br/>#807    BuildScope._flushDirtyElements (package:flutter/src/widgets/framework.dart:2753:11)<br/>#808    BuildOwner.buildScope (package:flutter/src/widgets/framework.dart:3048:18)<br/>#809    AutomatedTestWidgetsFlutterBinding.drawFrame (package:flutter_test/src/binding.dart:1428:19)<br/>#810    RendererBinding._handlePersistentFrameCallback (package:flutter/src/rendering/binding.dart:475:5)<br/>#811    SchedulerBinding._invokeFrameCallback (package:flutter/src/scheduler/binding.dart:1397:15)<br/>#812    SchedulerBinding.handleDrawFrame (package:flutter/src/scheduler/binding.dart:1318:9)<br/>#813    AutomatedTestWidgetsFlutterBinding.pump.<anonymous closure> (package:flutter_test/src/binding.dart:1283:9)<br/>#816    TestAsyncUtils.guard (package:flutter_test/src/test_async_utils.dart:74:41)<br/>#817    AutomatedTestWidgetsFlutterBinding.pump (package:flutter_test/src/binding.dart:1270:27)<br/>#818    WidgetTester.pumpWidget.<anonymous closure> (package:flutter_test/src/widget_tester.dart:608:22)<br/>#821    TestAsyncUtils.guard (package:flutter_test/src/test_async_utils.dart:74:41)<br/>#822    WidgetTester.pumpWidget (package:flutter_test/src/widget_tester.dart:605:27)<br/>#823    main.<anonymous closure> (file:///Users/quangtran0603/Developer/FieldFlow/test/week_list_history_page_test.dart:40:18)<br/>#824    testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:189:29)<br/><asynchronous suspension><br/>#825    TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1027:5)<br/><asynchronous suspension><br/><asynchronous suspension><br/>(elided 5 frames from dart:async and package:stack_trace)<br/>════════════════════════════════════════════════════════════════════════════════════════════════════<br/>══╡ EXCEPTION CAUGHT BY WIDGETS LIBRARY ╞═══════════════════════════════════════════════════════════<br/>The following FirebaseException was thrown building FutureBuilder<String>(dirty, state:<br/>_FutureBuilderState<String>#c1abf):<br/>[core/no-app] No Firebase App '[DEFAULT]' has been created - call Firebase.initializeApp()<br/>The relevant error-causing widget was:<br/>  FutureBuilder<String><br/>  FutureBuilder:file:///Users/quangtran0603/Developer/FieldFlow/lib/week_list/week_list_history_page.dart:23:12<br/>When the exception was thrown, this was the stack:<br/>#0      MethodChannelFirebase.app (package:firebase_core_platform_interface/src/method_channel/method_channel_firebase.dart:195:5)<br/>#1      Firebase.app (package:firebase_core/src/firebase.dart:79:41)<br/>#2      FirebaseAuth.instance (package:firebase_auth/src/firebase_auth.dart:38:47)<br/>#3      WeekListHistoryPage.build.<anonymous closure> (package:field_flow/week_list/week_list_history_page.dart:34:38)<br/>#4      _FutureBuilderState.build (package:flutter/src/widgets/async.dart:626:55)<br/>#5      StatefulElement.build (package:flutter/src/widgets/framework.dart:5743:27)<br/>#6      ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5631:15)<br/>#7      StatefulElement.performRebuild (package:flutter/src/widgets/framework.dart:5794:11)<br/>#8      Element.rebuild (package:flutter/src/widgets/framework.dart:5347:7)<br/>#9      BuildScope._tryRebuild (package:flutter/src/widgets/framework.dart:2694:15)<br/>#10     BuildScope._flushDirtyElements (package:flutter/src/widgets/framework.dart:2753:11)<br/>#11     BuildOwner.buildScope (package:flutter/src/widgets/framework.dart:3048:18)<br/>#12     AutomatedTestWidgetsFlutterBinding.drawFrame (package:flutter_test/src/binding.dart:1428:19)<br/>#13     RendererBinding._handlePersistentFrameCallback (package:flutter/src/rendering/binding.dart:475:5)<br/>#14     SchedulerBinding._invokeFrameCallback (package:flutter/src/scheduler/binding.dart:1397:15)<br/>#15     SchedulerBinding.handleDrawFrame (package:flutter/src/scheduler/binding.dart:1318:9)<br/>#16     AutomatedTestWidgetsFlutterBinding.pump.<anonymous closure> (package:flutter_test/src/binding.dart:1283:9)<br/>#19     TestAsyncUtils.guard (package:flutter_test/src/test_async_utils.dart:74:41)<br/>#20     AutomatedTestWidgetsFlutterBinding.pump (package:flutter_test/src/binding.dart:1270:27)<br/>#21     WidgetTester.pumpAndSettle.<anonymous closure> (package:flutter_test/src/widget_tester.dart:730:23)<br/>#24     TestAsyncUtils.guard (package:flutter_test/src/test_async_utils.dart:74:41)<br/>#25     WidgetTester.pumpAndSettle (package:flutter_test/src/widget_tester.dart:723:27)<br/>#26     main.<anonymous closure> (file:///Users/quangtran0603/Developer/FieldFlow/test/week_list_history_page_test.dart:54:18)<br/><asynchronous suspension><br/>#27     testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:189:15)<br/><asynchronous suspension><br/>#28     TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1027:5)<br/><asynchronous suspension><br/><asynchronous suspension><br/>(elided 5 frames from dart:async and package:stack_trace)<br/>════════════════════════════════════════════════════════════════════════════════════════════════════<br/>══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════<br/>The following TestFailure was thrown running a test:<br/>Expected: exactly one matching candidate<br/>  Actual: _TextContainingWidgetFinder:<Found 0 widgets with text containing Worker (ID:: []><br/>   Which: means none were found but one was expected<br/>When the exception was thrown, this was the stack:<br/>#4      main.<anonymous closure> (file:///Users/quangtran0603/Developer/FieldFlow/test/week_list_history_page_test.dart:57:5)<br/><asynchronous suspension><br/>#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:189:15)<br/><asynchronous suspension><br/>#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1027:5)<br/><asynchronous suspension><br/><asynchronous suspension><br/>(elided one frame from package:stack_trace)<br/>This was caught by the test expectation on the following line:<br/>  file:///Users/quangtran0603/Developer/FieldFlow/test/week_list_history_page_test.dart line 57<br/>The test description was:<br/>  WeekList Page Test shows Manager and Worker Tabs<br/>════════════════════════════════════════════════════════════════════════════════════════════════════<br/>══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════<br/>The following message was thrown:<br/>Multiple exceptions (3) were detected during the running of the current test, and at least one was<br/>unexpected.<br/>════════════════════════════════════════════════════════════════════════════════════════════════════<br/></span>
+                                    </li>
+                                    <li class="text">
+                                        <span class="stderr">Test failed. See exception logs above.<br/>The test description was: WeekList Page Test shows Manager and Worker Tabs<br/></span>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="level top open">
+                        <span><em class="time">
+                                <div class="time">405 ms</div>
+                            </em>path_map_test.dart</span>
+                        <ul>
+                            <li class="level test">
+                                <span><em class="time">
+                                        <div class="time">405 ms</div>
+                                    </em><em class="status">passed</em>Pathmap renders with markers and polylines</span>
+                                <ul>
+                                    <li class="text">
+                                        <span class="stdout"></span>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="level top open">
+                        <span><em class="time">
+                                <div class="time">43 ms</div>
                             </em>time_tracker_test.dart</span>
                         <ul>
                             <li class="level suite open">
                                 <span><em class="time">
-                                        <div class="time">67 ms</div>
+                                        <div class="time">43 ms</div>
                                     </em>TimeTracker Tests</span>
                                 <ul>
                                     <li class="level test">
                                         <span><em class="time">
-                                                <div class="time">46 ms</div>
+                                                <div class="time">30 ms</div>
                                             </em><em class="status">passed</em>Check-in should save to Firestore and update state</span>
-                                        <ul>
-                                            <li class="text">
-                                                <span class="stdout"></span>
-                                            </li>
-                                        </ul>
                                     </li>
                                     <li class="level test">
                                         <span><em class="time">
-                                                <div class="time">9 ms</div>
+                                                <div class="time">5 ms</div>
                                             </em><em class="status">passed</em>Check-out should save to Firestore and update state =&gt; checkedOut True and locationList is reset</span>
                                         <ul>
                                             <li class="text">
@@ -633,12 +693,12 @@ jQuery.cookie = function(name, value, options) {
                                     </li>
                                     <li class="level test">
                                         <span><em class="time">
-                                                <div class="time">3 ms</div>
+                                                <div class="time">2 ms</div>
                                             </em><em class="status">passed</em>Check-out should do nothing if no check-in ID exists</span>
                                     </li>
                                     <li class="level test">
                                         <span><em class="time">
-                                                <div class="time">9 ms</div>
+                                                <div class="time">6 ms</div>
                                             </em><em class="status">passed</em>processRawPosition should segment locations when distance &gt; 5 meters</span>
                                         <ul>
                                             <li class="text">
@@ -652,46 +712,46 @@ jQuery.cookie = function(name, value, options) {
                     </li>
                     <li class="level top open">
                         <span><em class="time">
-                                <div class="time">46 ms</div>
+                                <div class="time">30 ms</div>
                             </em>week_model_test.dart</span>
                         <ul>
                             <li class="level suite open">
                                 <span><em class="time">
-                                        <div class="time">35 ms</div>
+                                        <div class="time">20 ms</div>
                                     </em>get work hours</span>
                                 <ul>
                                     <li class="level test">
                                         <span><em class="time">
-                                                <div class="time">31 ms</div>
+                                                <div class="time">17 ms</div>
                                             </em><em class="status">passed</em>one day = 8 hours</span>
                                     </li>
                                     <li class="level test">
                                         <span><em class="time">
-                                                <div class="time">4 ms</div>
+                                                <div class="time">3 ms</div>
                                             </em><em class="status">passed</em>two days = 16 hours</span>
                                     </li>
                                 </ul>
                             </li>
                             <li class="level test">
                                 <span><em class="time">
-                                        <div class="time">11 ms</div>
+                                        <div class="time">10 ms</div>
                                     </em><em class="status">passed</em>toString</span>
                             </li>
                         </ul>
                     </li>
                     <li class="level top open">
                         <span><em class="time">
-                                <div class="time">455 ms</div>
+                                <div class="time">406 ms</div>
                             </em>week_list_test.dart</span>
                         <ul>
                             <li class="level suite open">
                                 <span><em class="time">
-                                        <div class="time">455 ms</div>
+                                        <div class="time">406 ms</div>
                                     </em>Week List Page Tests</span>
                                 <ul>
                                     <li class="level test">
                                         <span><em class="time">
-                                                <div class="time">455 ms</div>
+                                                <div class="time">406 ms</div>
                                             </em><em class="status">passed</em>WeekList Page Test show 2 Week Entries</span>
                                         <ul>
                                             <li class="text">
@@ -705,7 +765,7 @@ jQuery.cookie = function(name, value, options) {
                     </li>
                     <li class="level top open">
                         <span><em class="time">
-                                <div class="time">35 ms</div>
+                                <div class="time">33 ms</div>
                             </em>check_entry_test.dart</span>
                         <ul>
                             <li class="level suite open">
@@ -732,13 +792,18 @@ jQuery.cookie = function(name, value, options) {
                             </li>
                             <li class="level suite open">
                                 <span><em class="time">
-                                        <div class="time">13 ms</div>
+                                        <div class="time">11 ms</div>
                                     </em>format datetime as HH:mm:ss</span>
                                 <ul>
                                     <li class="level test">
                                         <span><em class="time">
-                                                <div class="time">13 ms</div>
+                                                <div class="time">11 ms</div>
                                             </em><em class="status">passed</em>Test if getHHmmss() returns expected time format as HH:mm:ss</span>
+                                        <ul>
+                                            <li class="text">
+                                                <span class="stdout"></span>
+                                            </li>
+                                        </ul>
                                     </li>
                                 </ul>
                             </li>
@@ -746,32 +811,98 @@ jQuery.cookie = function(name, value, options) {
                     </li>
                     <li class="level top open">
                         <span><em class="time">
-                                <div class="time">11 ms</div>
+                                <div class="time">502 ms</div>
+                            </em>confirm_dialog_test.dart</span>
+                        <ul>
+                            <li class="level suite open">
+                                <span><em class="time">
+                                        <div class="time">502 ms</div>
+                                    </em>Confirm Dialog tests</span>
+                                <ul>
+                                    <li class="level test">
+                                        <span><em class="time">
+                                                <div class="time">444 ms</div>
+                                            </em><em class="status">passed</em>dialog shows Cancel/Confirm</span>
+                                        <ul>
+                                            <li class="text">
+                                                <span class="stdout"></span>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="level test">
+                                        <span><em class="time">
+                                                <div class="time">58 ms</div>
+                                            </em><em class="status">passed</em>Confirm button navigates back with true</span>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="level top failed open">
+                        <span><em class="time">
+                                <div class="time">442 ms</div>
+                            </em>choose_worker_test.dart</span>
+                        <ul>
+                            <li class="level suite failed open">
+                                <span><em class="time">
+                                        <div class="time">442 ms</div>
+                                    </em>Choose Worker page</span>
+                                <ul>
+                                    <li class="level test failed open">
+                                        <span><em class="time">
+                                                <div class="time">442 ms</div>
+                                            </em><em class="status">failed</em>Worker 1 brings up the worker page</span>
+                                        <ul>
+                                            <li class="text">
+                                                <span class="stdout">══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════<br/>The following TestFailure was thrown running a test:<br/>Expected: exactly one matching candidate<br/>  Actual: _TextWidgetFinder:<Found 0 widgets with text "1": []><br/>   Which: means none were found but one was expected<br/>When the exception was thrown, this was the stack:<br/>#4      main.<anonymous closure>.<anonymous closure> (file:///Users/quangtran0603/Developer/FieldFlow/test/choose_worker_test.dart:28:7)<br/><asynchronous suspension><br/>#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:189:15)<br/><asynchronous suspension><br/>#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1027:5)<br/><asynchronous suspension><br/><asynchronous suspension><br/>(elided one frame from package:stack_trace)<br/>This was caught by the test expectation on the following line:<br/>  file:///Users/quangtran0603/Developer/FieldFlow/test/choose_worker_test.dart line 28<br/>The test description was:<br/>  Worker 1 brings up the worker page<br/>════════════════════════════════════════════════════════════════════════════════════════════════════<br/></span>
+                                            </li>
+                                            <li class="text">
+                                                <span class="stderr">Test failed. See exception logs above.<br/>The test description was: Worker 1 brings up the worker page<br/></span>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="level top open">
+                        <span><em class="time">
+                                <div class="time">470 ms</div>
+                            </em>homepage_test.dart</span>
+                        <ul>
+                            <li class="level test">
+                                <span><em class="time">
+                                        <div class="time">470 ms</div>
+                                    </em><em class="status">passed</em>Homepage shows check in/out button</span>
+                                <ul>
+                                    <li class="text">
+                                        <span class="stdout"></span>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="level top open">
+                        <span><em class="time">
+                                <div class="time">12 ms</div>
                             </em>position_provider_test.dart</span>
                         <ul>
                             <li class="level test">
                                 <span><em class="time">
-                                        <div class="time">11 ms</div>
+                                        <div class="time">12 ms</div>
                                     </em><em class="status">passed</em>test name</span>
                             </li>
                         </ul>
                     </li>
                     <li class="level top open">
                         <span><em class="time">
-                                <div class="time">366 ms</div>
+                                <div class="time">364 ms</div>
                             </em>day_detail_page_test.dart</span>
                         <ul>
-                            <li class="level suite open">
+                            <li class="level test">
                                 <span><em class="time">
-                                        <div class="time">366 ms</div>
-                                    </em>Day Detail Page Tests</span>
-                                <ul>
-                                    <li class="level test">
-                                        <span><em class="time">
-                                                <div class="time">366 ms</div>
-                                            </em><em class="status">passed</em>Day Detail Page Test show Check In Check Out time</span>
-                                    </li>
-                                </ul>
+                                        <div class="time">364 ms</div>
+                                    </em><em class="status">passed</em>DayDetailPage Test populate DayDetail</span>
                             </li>
                         </ul>
                     </li>
@@ -779,7 +910,7 @@ jQuery.cookie = function(name, value, options) {
             </div>
         </div>
         <div id="footer">
-            <p>Generated by Android Studio on 2/25/25, 5:29 PM</p>
+            <p>Generated by Android Studio on 3/9/25, 1:23 PM</p>
         </div>
     </body>
 </html>

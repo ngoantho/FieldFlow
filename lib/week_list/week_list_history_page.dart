@@ -6,34 +6,33 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class WeekListHistoryPage extends StatelessWidget with BuildAppBar {
-  const WeekListHistoryPage({super.key});
+  final String userId;
+  final String userRole;
+  const WeekListHistoryPage({super.key,
+    required this.userId,
+    required this.userRole,});
 
-  Future<String> _getUserRole() async {
-    User? user = FirebaseAuth.instance.currentUser;
-
-    DocumentSnapshot userDoc = await FirebaseFirestore.instance
-        .collection('users')
-        .doc(user!.uid)
-        .get();
-    return userDoc['role'];
-  }
+  // Future<String> _getUserRole() async {
+  //   User? user = FirebaseAuth.instance.currentUser;
+  //
+  //   DocumentSnapshot userDoc = await FirebaseFirestore.instance
+  //       .collection('users')
+  //       .doc(user!.uid)
+  //       .get();
+  //   return userDoc['role'];
+  // }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<String>(
-        future: _getUserRole(),
-        builder: (context, snapshot) {
-          return Scaffold(
+    return Scaffold(
             appBar: AppBar(
               title: Text('Week Report'),
               centerTitle: true,
             ),
-            body: snapshot.data == 'Manager'
+            body: userRole == 'Manager'
                 ? ChooseWorkerPage() // Manager sees worker selection
-                : WeekList(
-                    id: FirebaseAuth.instance.currentUser?.uid ??
-                        ''), // Field Worker sees their week list
+                : WeekList(id: userId), // Field Worker sees their week list
           );
-        });
+        }
   }
-}
+

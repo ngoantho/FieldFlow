@@ -17,7 +17,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await FirebaseAppCheck.instance.activate(
-    androidProvider: AndroidProvider.debug,  // ✅ Allows any device
+    androidProvider: AndroidProvider.debug, 
   );
   runApp(MultiProvider(
     providers: [

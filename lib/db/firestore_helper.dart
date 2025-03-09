@@ -13,10 +13,11 @@ class FirestoreHelper {
 
   /// Save a check-in entry
   Future<String> saveCheckIn(DateTime checkInTime) async {
-
     User? user = _auth.currentUser;
     String userId = user!.uid;
-    DocumentSnapshot userDoc = await _firestore.collection('users').doc(userId).get();
+    DocumentSnapshot userDoc = await _firestore.collection('users')
+        .doc(userId)
+        .get();
     String role = userDoc['role'];
 
     DocumentReference docRef = _firestore.collection('check_entries').doc();
@@ -38,11 +39,12 @@ class FirestoreHelper {
       'checkOutTime': checkOutTime.toIso8601String(),
       'checkedOut': true,
       'locations': locations
-          .map((loc) => {
-                'latitude': loc.latitude,
-                'longitude': loc.longitude,
-                'duration': loc.duration.inSeconds,
-              })
+          .map((loc) =>
+      {
+        'latitude': loc.latitude,
+        'longitude': loc.longitude,
+        'duration': loc.duration.inSeconds,
+      })
           .toList(),
     });
   }
@@ -56,29 +58,29 @@ class FirestoreHelper {
         .map((snapshot) {
       return snapshot.docs
           .map((doc) {
-            var data = doc.data();
+        var data = doc.data();
 
-            if (data['checkOutTime'] == null ||
-                (data['locations'] as List<dynamic>).isEmpty) {
-              return null;
-            }
+        if (data['checkOutTime'] == null ||
+            (data['locations'] as List<dynamic>).isEmpty) {
+          return null;
+        }
 
-            return DayModel(
-              CheckEntryModel(
-                DateTime.parse(data['checkInTime']),
-                data['checkOutTime'] != null
-                    ? DateTime.parse(data['checkOutTime'])
-                    : null,
-              ),
-              (data['locations'] as List<dynamic>).map((loc) {
-                return LocationModel(
-                  loc['latitude'],
-                  loc['longitude'],
-                  Duration(seconds: loc['duration']),
-                );
-              }).toList(),
+        return DayModel(
+          CheckEntryModel(
+            DateTime.parse(data['checkInTime']),
+            data['checkOutTime'] != null
+                ? DateTime.parse(data['checkOutTime'])
+                : null,
+          ),
+          (data['locations'] as List<dynamic>).map((loc) {
+            return LocationModel(
+              loc['latitude'],
+              loc['longitude'],
+              Duration(seconds: loc['duration']),
             );
-          })
+          }).toList(),
+        );
+      })
           .where((day) => day != null)
           .cast<DayModel>()
           .toList();
@@ -93,7 +95,7 @@ class FirestoreHelper {
       for (var day in days) {
         DateTime checkInDate = day.checkEntry.checkInTime!;
         DateTime startOfWeek =
-            checkInDate.subtract(Duration(days: checkInDate.weekday - 1));
+        checkInDate.subtract(Duration(days: checkInDate.weekday - 1));
         String weekKey =
             "${startOfWeek.year}-${startOfWeek.month}-${startOfWeek.day}";
 
@@ -120,18 +122,21 @@ class FirestoreHelper {
   /// Fetch all users from Firestore
   Future<Map<String, String>> getUsers() async {
     QuerySnapshot usersSnapshot = await _firestore.collection('users').get();
-    return {for (var doc in usersSnapshot.docs) doc.id: doc['name'] ?? 'Unknown'};
+    return {
+      for (var doc in usersSnapshot.docs) doc.id: doc['name'] ?? 'Unknown'
+    };
   }
 
   /// Fetch work hour report data for selected users within a date range
-  Future<List<Map<String, dynamic>>> getWorkHourReport(
-      {required List<String> userIds, required DateTime startDate, required DateTime endDate}) async {
+  Future<List<Map<String, dynamic>>> getWorkHourReport({required List<
+      String> userIds, required DateTime startDate, required DateTime endDate}) async {
     if (userIds.isEmpty) return [];
 
     QuerySnapshot checkEntriesSnapshot = await _firestore
         .collection('check_entries')
         .where('userId', whereIn: userIds)
-        .where('checkInTime', isGreaterThanOrEqualTo: startDate.toIso8601String())
+        .where(
+        'checkInTime', isGreaterThanOrEqualTo: startDate.toIso8601String())
         .where('checkInTime', isLessThanOrEqualTo: endDate.toIso8601String())
         .get();
 
@@ -141,8 +146,12 @@ class FirestoreHelper {
       String userId = data['userId'];
       DateTime checkInTime = DateTime.parse(data['checkInTime']);
       DateTime? checkOutTime =
-      data['checkOutTime'] != null ? DateTime.parse(data['checkOutTime']) : null;
-      int workHours = checkOutTime != null ? checkOutTime.difference(checkInTime).inHours : 0;
+      data['checkOutTime'] != null
+          ? DateTime.parse(data['checkOutTime'])
+          : null;
+      int workHours = checkOutTime != null ? checkOutTime
+          .difference(checkInTime)
+          .inHours : 0;
 
       report.add({
         'checkInTime': data['checkInTime'],
@@ -151,5 +160,39 @@ class FirestoreHelper {
       });
     }
     return report;
+  }
+
+  /// Fetch and group report data by check-in date
+  Future<Map<String, List<Map<String, dynamic>>>> fetchReportData({
+    required List<String> userIds,
+    required DateTime startDate,
+    required DateTime endDate,
+  }) async {
+    if (userIds.isEmpty) return {};
+
+    // Fetch users
+    Map<String, String> users = await getUsers();
+
+    // Fetch work hour data
+    List<Map<String, dynamic>> report = await getWorkHourReport(
+      userIds: userIds,
+      startDate: startDate,
+      endDate: endDate,
+    );
+
+    // Grouping data by actual check-in date
+    Map<String, List<Map<String, dynamic>>> groupedData = {};
+    for (var entry in report) {
+      DateTime checkInDate = DateTime.parse(
+          entry['checkInTime']); // ✅ Correct parsing
+      String formattedDate = DateFormat('EEEE (MM-dd-yyyy)').format(
+          checkInDate);
+
+      if (!groupedData.containsKey(formattedDate)) {
+        groupedData[formattedDate] = [];
+      }
+      groupedData[formattedDate]!.add(entry);
+    }
+    return groupedData;
   }
 }

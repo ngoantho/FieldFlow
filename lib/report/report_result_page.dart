@@ -19,7 +19,7 @@ class ReportResultPage extends StatefulWidget {
 }
 
 class _ReportResultPageState extends State<ReportResultPage> {
-  List<Map<String, dynamic>> _reportData = [];
+  Map<String, List<Map<String, dynamic>>> _groupedReportData = {};
   Map<String, String> _userNames = {};
 
   @override
@@ -31,15 +31,25 @@ class _ReportResultPageState extends State<ReportResultPage> {
   Future<void> _fetchReportData() async {
     final firestoreHelper = Provider.of<FirestoreHelper>(context, listen: false);
     Map<String, String> users = await firestoreHelper.getUsers();
+
     List<Map<String, dynamic>> report = await firestoreHelper.getWorkHourReport(
       userIds: widget.selectedUserIds,
       startDate: widget.startDate,
       endDate: widget.endDate,
     );
+    Map<String, List<Map<String, dynamic>>> groupedData = {};
+    for (var entry in report) {
+      DateTime checkInDate = DateFormat('EEEE').parse(entry['day']);
+      String formattedDate = DateFormat('EEEE (MM-dd-yyyy)').format(checkInDate);
 
+      if (!groupedData.containsKey(formattedDate)) {
+        groupedData[formattedDate] = [];
+      }
+      groupedData[formattedDate]!.add(entry);
+    }
     setState(() {
       _userNames = users;
-      _reportData = report;
+      _groupedReportData = groupedData;
     });
   }
 
@@ -57,14 +67,27 @@ class _ReportResultPageState extends State<ReportResultPage> {
             ),
             Expanded(
               child: ListView(
-                children: _reportData.map((entry) {
-                  DateTime checkInDate = DateFormat('EEEE').parse(entry['day']); // Convert "Monday" to DateTime
-                  String formattedDate = DateFormat('MM-dd-yyyy').format(checkInDate);
-                  return ListTile(
+                children: _groupedReportData.entries.map((entry) {
+                  String dateHeader = entry.key; // "Tuesday (03-05-2024)"
+                  List<Map<String, dynamic>> users = entry.value;
 
-                    title: Text("${entry['day']} ($formattedDate): ${_userNames[entry['userId']]} - ${entry['workHours']} hours"),
-                  );
-                }).toList(),
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        dateHeader,
+                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                      ),
+                      ...users.map((userEntry) {
+                        return Padding(
+                          padding: const EdgeInsets.only(left: 16.0),
+                          child: Text(
+                            "- ${_userNames[userEntry['userId']] ?? 'Unknown'} worked ${userEntry['workHours']} hours",
+                          ),
+                        );
+                      }).toList(),
+                      SizedBox(height: 10), 
+                    ],);}).toList(),
               ),
             ),
           ],

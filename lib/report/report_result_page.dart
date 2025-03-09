@@ -29,24 +29,16 @@ class _ReportResultPageState extends State<ReportResultPage> {
   }
 
   Future<void> _fetchReportData() async {
-    final firestoreHelper = Provider.of<FirestoreHelper>(context, listen: false);
+    final firestoreHelper =
+        Provider.of<FirestoreHelper>(context, listen: false);
     Map<String, String> users = await firestoreHelper.getUsers();
 
-    List<Map<String, dynamic>> report = await firestoreHelper.getWorkHourReport(
+    // Fetch grouped report data
+    Map<String, List<Map<String, dynamic>>> groupedData = await firestoreHelper.fetchReportData(
       userIds: widget.selectedUserIds,
       startDate: widget.startDate,
       endDate: widget.endDate,
     );
-    Map<String, List<Map<String, dynamic>>> groupedData = {};
-    for (var entry in report) {
-      DateTime checkInDate = DateTime.parse(entry['checkInTime']);
-      String formattedDate = DateFormat('EEEE (MM-dd-yyyy)').format(checkInDate);
-
-      if (!groupedData.containsKey(formattedDate)) {
-        groupedData[formattedDate] = [];
-      }
-      groupedData[formattedDate]!.add(entry);
-    }
     setState(() {
       _userNames = users;
       _groupedReportData = groupedData;
@@ -76,7 +68,8 @@ class _ReportResultPageState extends State<ReportResultPage> {
                     children: [
                       Text(
                         dateHeader,
-                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold),
                       ),
                       ...users.map((userEntry) {
                         return Padding(
@@ -86,8 +79,10 @@ class _ReportResultPageState extends State<ReportResultPage> {
                           ),
                         );
                       }).toList(),
-                      SizedBox(height: 10), 
-                    ],);}).toList(),
+                      SizedBox(height: 10),
+                    ],
+                  );
+                }).toList(),
               ),
             ),
           ],

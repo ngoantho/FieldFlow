@@ -145,7 +145,7 @@ class FirestoreHelper {
       int workHours = checkOutTime != null ? checkOutTime.difference(checkInTime).inHours : 0;
 
       report.add({
-        'day': DateFormat('EEEE').format(checkInTime),
+        'checkInTime': data['checkInTime'],
         'userId': userId,
         'workHours': workHours,
       });

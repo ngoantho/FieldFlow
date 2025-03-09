@@ -29,7 +29,8 @@ class _ReportResultPageState extends State<ReportResultPage> {
   }
 
   Future<void> _fetchReportData() async {
-    final firestoreHelper = Provider.of<FirestoreHelper>(context, listen: false);
+    final firestoreHelper =
+        Provider.of<FirestoreHelper>(context, listen: false);
     Map<String, String> users = await firestoreHelper.getUsers();
 
     List<Map<String, dynamic>> report = await firestoreHelper.getWorkHourReport(
@@ -41,7 +42,6 @@ class _ReportResultPageState extends State<ReportResultPage> {
     for (var entry in report) {
       DateTime checkInDate = DateTime.parse(entry['checkInTime']);
       String formattedDate = DateFormat('EEEE (MM-dd-yyyy)').format(checkInDate);
-
       if (!groupedData.containsKey(formattedDate)) {
         groupedData[formattedDate] = [];
       }
@@ -76,7 +76,8 @@ class _ReportResultPageState extends State<ReportResultPage> {
                     children: [
                       Text(
                         dateHeader,
-                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold),
                       ),
                       ...users.map((userEntry) {
                         return Padding(
@@ -86,8 +87,10 @@ class _ReportResultPageState extends State<ReportResultPage> {
                           ),
                         );
                       }).toList(),
-                      SizedBox(height: 10), 
-                    ],);}).toList(),
+                      SizedBox(height: 10),
+                    ],
+                  );
+                }).toList(),
               ),
             ),
           ],

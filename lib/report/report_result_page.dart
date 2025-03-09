@@ -58,8 +58,11 @@ class _ReportResultPageState extends State<ReportResultPage> {
             Expanded(
               child: ListView(
                 children: _reportData.map((entry) {
+                  DateTime checkInDate = DateFormat('EEEE').parse(entry['day']); // Convert "Monday" to DateTime
+                  String formattedDate = DateFormat('MM-dd-yyyy').format(checkInDate);
                   return ListTile(
-                    title: Text("${entry['day']}: ${_userNames[entry['userId']]} - ${entry['workHours']} hours"),
+
+                    title: Text("${entry['day']} ($formattedDate): ${_userNames[entry['userId']]} - ${entry['workHours']} hours"),
                   );
                 }).toList(),
               ),

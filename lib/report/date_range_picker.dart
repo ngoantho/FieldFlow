@@ -6,7 +6,7 @@ class DateRangePickerWidget extends StatelessWidget {
   final DateTime? endDate;
   final Function(DateTime, DateTime) onDateRangeSelected;
 
-  DateRangePickerWidget({
+  const DateRangePickerWidget({super.key,
     required this.startDate,
     required this.endDate,
     required this.onDateRangeSelected,

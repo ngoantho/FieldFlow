@@ -5,7 +5,7 @@ class UserSelectionWidget extends StatelessWidget {
   final List<String> selectedUserIds;
   final Function(String, bool) onUserSelectionChanged;
 
-  UserSelectionWidget({
+  const UserSelectionWidget({super.key,
     required this.userNames,
     required this.selectedUserIds,
     required this.onUserSelectionChanged,

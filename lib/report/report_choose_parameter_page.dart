@@ -4,9 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:field_flow/db/firestore_helper.dart';
 import 'package:field_flow/report/report_result_page.dart';
 import 'package:field_flow/report/date_range_picker.dart';
-import 'package:field_flow/report/user_selection_widget.dart';
-
-
 class ReportChooseParameterPage extends StatefulWidget {
   @override
   _ReportChooseParameterPageState createState() => _ReportChooseParameterPageState();
@@ -14,7 +11,7 @@ class ReportChooseParameterPage extends StatefulWidget {
 class _ReportChooseParameterPageState extends State<ReportChooseParameterPage> {
   DateTime? _startDate;
   DateTime? _endDate;
-  List<String> _selectedUserIds = [];
+  final List<String> _selectedUserIds = [];
   Map<String, String> _userNames = {}; // userId -> userName mapping
   @override
   void initState() {

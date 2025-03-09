@@ -8,7 +8,7 @@ class ReportResultPage extends StatefulWidget {
   final DateTime endDate;
   final List<String> selectedUserIds;
 
-  ReportResultPage({
+  const ReportResultPage({super.key,
     required this.startDate,
     required this.endDate,
     required this.selectedUserIds,
@@ -78,16 +78,9 @@ class _ReportResultPageState extends State<ReportResultPage> {
                             "- ${_userNames[userEntry['userId']] ?? 'Unknown'} worked ${userEntry['workHours']} hours",
                           ),
                         );
-                      }).toList(),
+                      }),
                       SizedBox(height: 10),
                     ],
                   );
                 }).toList(),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
+              ),),],),),);}}

@@ -35,7 +35,7 @@ void main() {
     await tester.tap(endDateFinder);
     await tester.pumpAndSettle();
 
-    await tester.tap(find.text('Save')); 
+    await tester.tap(find.text('Save'));
     await tester.pump();
     expect(startDate, isNotNull);
     expect(endDate, isNotNull);

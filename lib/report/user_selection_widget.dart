@@ -13,8 +13,8 @@ class UserSelectionWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: ListView(
+    return ListView(
+      shrinkWrap: true,
         children: userNames.entries.map((entry) {
           return CheckboxListTile(
             title: Text(entry.value),
@@ -24,7 +24,6 @@ class UserSelectionWidget extends StatelessWidget {
             },
           );
         }).toList(),
-      ),
     );
   }
 }

@@ -71,5 +71,5 @@ class _ReportChooseParameterPageState extends State<ReportChooseParameterPage> {
             ),
             ElevatedButton(
               onPressed: _onGenerateReportPressed,
-              child: Text("Generate Report"),
+              child: Text("Print Report"),
             ),],),),);}}

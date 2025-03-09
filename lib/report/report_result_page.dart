@@ -39,7 +39,7 @@ class _ReportResultPageState extends State<ReportResultPage> {
     );
     Map<String, List<Map<String, dynamic>>> groupedData = {};
     for (var entry in report) {
-      DateTime checkInDate = DateFormat('EEEE').parse(entry['day']);
+      DateTime checkInDate = DateTime.parse(entry['checkInTime']);
       String formattedDate = DateFormat('EEEE (MM-dd-yyyy)').format(checkInDate);
 
       if (!groupedData.containsKey(formattedDate)) {

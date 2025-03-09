@@ -10,9 +10,12 @@ class ChooseWorkerPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text("Choose a Worker"),
-        ),
+        floatingActionButton: ElevatedButton(
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => ReportChooseParameterPage()));
+            },
+            child: Text("Make Report")),
         body: FutureBuilder(future: (() async {
           return FirebaseFirestore.instance.collection('users').get();
         })(), builder: (context, snapshot) {
@@ -24,23 +27,12 @@ class ChooseWorkerPage extends StatelessWidget {
               .map((e) => {...e.data(), 'id': e.id})
               .toList();
 
-          return Column(
-            children: [
-              Expanded(
-                  child: ListView.builder(
-                itemBuilder: (context, index) => Padding(
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                    child: _ChooseWorkerItem(users[index])),
-                itemCount: users.length,
-              )),
-              ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => ReportChooseParameterPage()));
-                  },
-                  child: Text("Make Report"))
-            ],
+          return ListView.builder(
+            itemBuilder: (context, index) => Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                child: _ChooseWorkerItem(users[index])),
+            itemCount: users.length,
           );
         }));
   }

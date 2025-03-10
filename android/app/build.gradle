@@ -13,6 +13,15 @@ android {
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
+    signingConfigs {
+        debug {
+            storeFile file('shared-debug.keystore')
+            storePassword 'tester'
+            keyAlias 'androiddebugkey'
+            keyPassword 'tester'
+        }
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8

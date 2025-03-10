@@ -1,3 +1,4 @@
+import 'package:field_flow/day_list/day_list_history_page.dart';
 import 'package:field_flow/db/firestore_helper.dart';
 import 'package:field_flow/model/check_entry_model.dart';
 import 'package:field_flow/model/day_model.dart';
@@ -48,6 +49,14 @@ main() {
       await tester.pumpAndSettle();
 
       expect(find.textContaining("Week Report: \n"), findsOneWidget);
+
+      final week1Btn = find.byType(ElevatedButton);
+      expect(week1Btn, findsOneWidget);
+
+      await tester.tap(week1Btn);
+      await tester.pumpAndSettle();
+
+      expect(find.byType(DayListHistoryPage), findsOneWidget);
     });
   });
 }

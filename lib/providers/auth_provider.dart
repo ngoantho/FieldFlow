@@ -10,8 +10,6 @@ class AuthProvider {
       : _firestoreHelper = firestoreHelper;
 
   Future<User?> signInWithGoogle() async {
-    await GoogleSignIn().signOut();
-
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
     if (googleUser == null) return null;
 

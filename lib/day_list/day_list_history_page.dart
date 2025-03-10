@@ -14,7 +14,8 @@ class DayListHistoryPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Week ${weekModel.dayList.first.getMmDdYyyy} - ${weekModel.dayList.last.getMmDdYyyy} Report'
+          // '${weekModel.dayList.first.getMmDdYyyy} - ${weekModel.dayList.last.getMmDdYyyy}'
+          weekModel.getWeekRange()
         ),
         centerTitle: true,
       ),
